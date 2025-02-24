@@ -1,45 +1,76 @@
 import Image from "next/image";
+import Link from "next/link";
+import { 
+  BookCover, 
+  BrandBadge, 
+  IllustrationFrame, 
+  BookTitle, 
+  Subtitle, 
+  AuthorByline,
+  CreditLine 
+} from "@/components/ui/book-cover";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center p-4">
-      <div className="max-w-4xl w-full bg-gradient-to-b from-slate-900 to-black shadow-[0_0_15px_rgba(0,255,255,0.3)] rounded-lg overflow-hidden border border-cyan-500/30">
-        {/* Header */}
-        <div className="bg-red-600 text-white p-4 flex justify-between items-center shadow-[0_0_10px_rgba(255,0,0,0.3)]">
-          <h1 className="text-xl font-black tracking-wider">CHOOSE YOUR OWN ADVENTURE</h1>
-          <span className="text-lg font-mono bg-black/20 px-2 py-1 rounded">#404</span>
+    <main className="min-h-screen w-full bg-[#f4f1ea] flex flex-col items-center justify-center p-4">
+      <div className="w-full h-[95vh] flex flex-col items-center justify-center gap-6">
+        <div className="w-full h-full max-h-[95vh] flex items-center justify-center">
+          <BookCover className="h-full w-auto">
+            <div className="relative flex flex-col h-full">
+              {/* Floating Brand Badge */}
+              <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 w-full flex justify-center">
+                <BrandBadge />
+              </div>
+
+              {/* Content Layout */}
+              <div className="flex flex-col h-full pt-20">
+                {/* Text Section */}
+                <div className="text-center px-6 sm:px-8 pb-6">
+                  <Subtitle>
+                    YOU'RE THE STAR OF THE STORY!<br />
+                    CHOOSE FROM 42 POSSIBLE ENDINGS.
+                  </Subtitle>
+                  
+                  <BookTitle>
+                    TRIAL OF THE<br />
+                    CYBERSPACE<br />
+                    SUPERCOMPUTER<br />
+                    SOFTWARE ENGINEER
+                  </BookTitle>
+
+                  <AuthorByline>by Douglas MacKrell</AuthorByline>
+                </div>
+
+                {/* Illustration Section */}
+                <div className="flex-grow px-6 sm:px-12 pb-2">
+                  <IllustrationFrame className="h-full">
+                    <Image
+                      src="/hero-image.webp"
+                      alt="Retro cyberpunk scene with programmer"
+                      fill
+                      style={{ objectFit: 'cover' }}
+                      priority
+                      className="z-0"
+                    />
+                    {/* Classic CYOA illustration overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent z-10" />
+                  </IllustrationFrame>
+                  <CreditLine>Copyright © 2024 by Douglas MacKrell • All rights reserved</CreditLine>
+                </div>
+              </div>
+            </div>
+          </BookCover>
         </div>
 
-        {/* Main Content */}
-        <div className="p-8 text-center bg-gradient-to-b from-slate-900/50 to-black/50 text-white">
-          <div className="mb-8">
-            <h2 className="text-xl font-black tracking-wide mb-2 text-cyan-400">YOU'RE THE STAR OF THE STORY!</h2>
-            <p className="text-cyan-300 font-bold">CHOOSE FROM 42 POSSIBLE ENDINGS.</p>
-          </div>
-
-          <h1 className="text-5xl font-black mb-6 leading-tight bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 text-transparent bg-clip-text">
-            TRIAL OF THE<br />
-            CYBERSPACE<br />
-            SUPERCOMPUTER<br />
-            SOFTWARE ENGINEER
-          </h1>
-
-          <p className="text-lg text-cyan-200 font-mono">by Douglas MacKrell</p>
-        </div>
-
-        {/* Hero Image */}
-        <div className="relative w-full h-[600px]">
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10" />
-          <Image
-            src="/hero-image.webp"
-            alt="Retro cyberpunk scene with programmer"
-            fill
-            style={{ objectFit: 'cover' }}
-            priority
-            className="z-0"
-          />
-        </div>
+        {/* CTA Button */}
+        <Link 
+          href="/start" 
+          className="bg-red-600 text-white text-xl sm:text-2xl px-8 py-3 rounded-full font-bold hover:bg-red-700 transition-colors shadow-lg"
+          style={{ fontFamily: 'ITC Benguiat Std, var(--font-garamond)' }}
+        >
+          BEGIN YOUR ADVENTURE
+        </Link>
       </div>
-    </div>
+    </main>
   );
 }
