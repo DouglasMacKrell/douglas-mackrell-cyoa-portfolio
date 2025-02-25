@@ -2,8 +2,8 @@ import Link from "next/link";
 
 export default function AcceptPath() {
   return (
-    <main className="min-h-screen w-full bg-[#f4f1ea] flex flex-col items-center justify-center p-4">
-      <div className="max-w-4xl w-full bg-white rounded-lg shadow-xl p-8 space-y-6">
+    <main className="min-h-screen w-full flex flex-col items-center justify-center p-4">
+      <div className="max-w-4xl w-full bg-white/90 backdrop-blur-sm rounded-lg shadow-xl p-8 space-y-6">
         <h1 
           className="text-3xl sm:text-4xl text-purple-700 text-center"
           style={{ fontFamily: 'ITC Benguiat Std, var(--font-garamond)' }}

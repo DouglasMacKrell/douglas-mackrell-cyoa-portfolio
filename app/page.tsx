@@ -12,7 +12,7 @@ import {
 
 export default function Home() {
   return (
-    <main className="min-h-screen w-full bg-[#f4f1ea] flex flex-col items-center justify-center p-4">
+    <main className="min-h-screen w-full flex flex-col items-center justify-center p-4">
       <div className="w-full h-[95vh] flex flex-col items-center justify-center gap-6">
         <div className="w-full h-full max-h-[95vh] flex items-center justify-center">
           <BookCover className="h-full w-auto">
@@ -32,9 +32,7 @@ export default function Home() {
                   </Subtitle>
                   
                   <BookTitle>
-                    TRIAL OF THE<br />
-                    CYBERSPACE<br />
-                    SUPERCOMPUTER<br />
+                    YOU ARE A<br />
                     SOFTWARE ENGINEER
                   </BookTitle>
 
@@ -42,19 +40,21 @@ export default function Home() {
                 </div>
 
                 {/* Illustration Section */}
-                <div className="flex-grow px-6 sm:px-12 pb-2">
-                  <IllustrationFrame className="h-full">
-                    <Image
-                      src="/hero-image.webp"
-                      alt="Retro cyberpunk scene with programmer"
-                      fill
-                      style={{ objectFit: 'cover' }}
-                      priority
-                      className="z-0"
-                    />
-                    {/* Classic CYOA illustration overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent z-10" />
-                  </IllustrationFrame>
+                <div className="flex-grow px-6 sm:px-12 pb-1">
+                  <div className="h-[95%]">
+                    <IllustrationFrame className="h-full">
+                      <Image
+                        src="/hero-image.webp"
+                        alt="Retro cyberpunk scene with programmer"
+                        fill
+                        style={{ objectFit: 'cover' }}
+                        priority
+                        className="z-0"
+                      />
+                      {/* Classic CYOA illustration overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent z-10" />
+                    </IllustrationFrame>
+                  </div>
                   <CreditLine>Copyright © 2024 by Douglas MacKrell • All rights reserved</CreditLine>
                 </div>
               </div>

@@ -34,3 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+docs/what_i_need_to_do.md
+docs/JOURNEY_UNDER_THE_SEA.webp
+docs/CONTEXT.md

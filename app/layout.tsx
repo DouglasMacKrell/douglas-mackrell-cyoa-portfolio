@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { EB_Garamond } from "next/font/google";
+import Image from "next/image";
+import StyledComponentsRegistry from "./registry";
 import "./globals.css";
 
 const garamond = EB_Garamond({ 
@@ -48,7 +50,28 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className={`${garamond.variable}`}>{children}</body>
+      <body className={`${garamond.variable} relative min-h-screen`}>
+        <StyledComponentsRegistry>
+          {/* Background Image */}
+          <div className="fixed inset-0 w-full h-full z-0 blur-[2px]">
+            <Image
+              src="/Background_image_01.webp"
+              alt="Retro cyberpunk background"
+              fill
+              priority
+              className="object-cover"
+              quality={100}
+            />
+            {/* Adjusted overlay with slight blur and darker opacity */}
+            <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
+          </div>
+          
+          {/* Main Content */}
+          <div className="relative z-10">
+            {children}
+          </div>
+        </StyledComponentsRegistry>
+      </body>
     </html>
   );
 }
