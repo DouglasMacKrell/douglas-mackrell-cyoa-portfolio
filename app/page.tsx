@@ -12,8 +12,9 @@ import {
   CreditLine 
 } from "@/components/ui/book-cover";
 import { useState, useEffect } from "react";
-import VortexSpinnerComponent from "@/components/ui/vortex-spinner";
+import VortexSpinnerComponent from '../components/ui/vortex-spinner';
 import styled from "styled-components";
+import GlitchProgressBar from '@/components/ui/loading/glitch-progress-bar';
 
 // Create a grunge overlay component for wear & tear effect
 const GrungeOverlay = styled.div`
@@ -136,6 +137,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [contentVisible, setContentVisible] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
 
   // Track all required assets for complete loading
   useEffect(() => {
@@ -219,12 +221,47 @@ export default function Home() {
     }
   }, [isLoading, fontsLoaded]);
 
+  // Effect to handle loading progress
+  useEffect(() => {
+    if (isLoading || !fontsLoaded) {
+      // Start from a small value to show some initial progress
+      setLoadingProgress(10);
+      
+      // Simulate progress
+      const interval = setInterval(() => {
+        setLoadingProgress(prev => {
+          // If we're close to 100% but not fully loaded, cap at 90%
+          if (prev >= 90 && (isLoading || !fontsLoaded)) {
+            return 90;
+          }
+          // Otherwise increment normally, capped at 100%
+          return Math.min(prev + (Math.random() * 10), 100);
+        });
+      }, 400);
+      
+      return () => clearInterval(interval);
+    } else {
+      // When loading is complete, ensure progress reaches 100%
+      setLoadingProgress(100);
+    }
+  }, [isLoading, fontsLoaded]);
+
   return (
     <main className="min-h-screen w-full flex flex-col items-center justify-center p-4">
       {/* Full-page loading overlay with spinner */}
       <LoadingOverlay $isVisible={!contentVisible}>
-        <div className="w-full h-full">
+        <div className="relative h-full w-full">
           <VortexSpinnerComponent fullScreen={true} />
+          <div className="absolute bottom-20 left-0 right-0 flex justify-center items-center z-50">
+            <div className="w-5/12 shadow-lg shadow-green-500/30">
+              <GlitchProgressBar 
+                progress={loadingProgress} 
+                width="100%" 
+                height={38}
+                loadingText="SYSTEM BOOT SEQUENCE"
+              />
+            </div>
+          </div>
         </div>
       </LoadingOverlay>
       
