@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { EB_Garamond } from "next/font/google";
 import Image from "next/image";
-import StyledComponentsRegistry from "./registry";
+import { StyledComponentsRegistry } from "./registry";
 import "./globals.css";
 
 const garamond = EB_Garamond({ 
@@ -49,6 +49,13 @@ export default function RootLayout({
           href="https://fonts.cdnfonts.com/css/itc-benguiat-std"
           rel="stylesheet"
         />
+        {/* Preload hero images to improve initial load times */}
+        <link rel="preload" href="/hero-image.webp" as="image" />
+        <link rel="preload" href="/hero-image-2.png" as="image" />
+        <link rel="preload" href="/hero-image-3.webp" as="image" />
+        <link rel="preload" href="/hero-image-4.webp" as="image" />
+        <link rel="preload" href="/hero-image-5.webp" as="image" />
+        <link rel="preload" href="/hero-image-6.webp" as="image" />
       </head>
       <body className={`${garamond.variable} relative min-h-screen`}>
         <StyledComponentsRegistry>
