@@ -1,11 +1,16 @@
 # ✅ TASK.md
 
 ## 🚀 Immediate Priority
-- [x] Create feature branch (docs/overhaul) to revamp documentation:
-  - [x] Audit and clean existing documentation
-  - [x] Organize project documentation structure
-  - [x] Create foundation documents needed for ongoing development
-  - [x] Standardize documentation format and conventions
+- [ ] Implement book page structure:
+  - [ ] Create standard page component with uniform dimensions
+  - [ ] Ensure consistent sizing between cover and internal pages 
+  - [ ] Set up basic book layout with left and right pages
+  - [ ] Define content area boundaries for each page
+- [ ] Create animated page turn logic:
+  - [ ] Implement forward/backward page turn effect
+  - [ ] Add state management for tracking current page
+  - [ ] Create navigation controls for page turning
+  - [ ] Ensure smooth transitions between pages
 
 ## 🚧 Active Work
 - [x] Build initial page layout and full-screen book container
@@ -16,6 +21,11 @@
 - [x] Remove loading screen implementation (currently overkill)
 - [x] Remove cover image randomizer and use a single specific image
 - [x] Set up testing infrastructure (Jest, RTL)
+- [x] Create feature branch (docs/overhaul) to revamp documentation:
+  - [x] Audit and clean existing documentation
+  - [x] Organize project documentation structure
+  - [x] Create foundation documents needed for ongoing development
+  - [x] Standardize documentation format and conventions
 
 ## 🔜 Backlog
 - [ ] Add branching logic and "choice" pages
