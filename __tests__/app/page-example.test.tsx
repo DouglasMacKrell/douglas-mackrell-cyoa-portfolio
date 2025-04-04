@@ -1,6 +1,20 @@
 import { render, screen } from '@testing-library/react';
 import PageExamplePage from '@/app/page-example/page';
 
+// Mock the Image component
+jest.mock('next/image', () => ({
+  __esModule: true,
+  default: ({src, alt, fill, ...props}: any) => {
+    // Convert boolean props to strings for proper HTML attributes
+    return <img 
+      src={src} 
+      alt={alt} 
+      {...props}
+      fill={fill ? "true" : undefined}
+    />
+  },
+}));
+
 describe('PageExamplePage', () => {
   test('renders both pages with correct content', () => {
     render(<PageExamplePage />);
@@ -13,6 +27,9 @@ describe('PageExamplePage', () => {
     // Check right page content
     expect(screen.getByText('Your Decision')).toBeInTheDocument();
     expect(screen.getByText(/This is a critical moment/)).toBeInTheDocument();
+    
+    // Check illustration
+    expect(screen.getByAltText('A person staring at a computer screen with glowing code')).toBeInTheDocument();
     
     // Check choices
     expect(screen.getByText('Accept the Partnership')).toBeInTheDocument();

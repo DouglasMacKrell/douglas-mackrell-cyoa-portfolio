@@ -1,0 +1,20 @@
+Paper Texture for CYOA Book
+
+For the realistic book appearance, you need to add a paper texture image file named 'paper-texture.png' to this directory.
+
+Characteristics of a good paper texture:
+- Subtle off-white or cream color
+- Light grain pattern
+- Very slight noise or paper fiber appearance
+- No strong patterns or visible watermarks
+- 500-1000px square size (will be repeated as a pattern)
+
+The paper texture should be subtle enough to not distract from the content while providing an authentic book paper appearance.
+
+You can find suitable paper textures on sites like:
+- Unsplash
+- Freepik
+- Pexels
+- Texture libraries
+
+After adding the texture image, the book pages will have a more authentic appearance. 

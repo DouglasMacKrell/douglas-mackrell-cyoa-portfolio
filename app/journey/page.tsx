@@ -11,48 +11,8 @@ import {
   PageIllustration
 } from "@/components/ui/book-page";
 import { PageChoice } from "@/components/ui/page-choice";
-import styled from 'styled-components';
 
-// Page container with title
-const PageContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  padding: 2rem 1rem;
-  background-color: #f5f3ee;
-`;
-
-// Title of the CYOA book
-const BookTitle = styled.h1`
-  font-family: 'Georgia', serif;
-  font-size: 2rem;
-  text-align: center;
-  margin-bottom: 2rem;
-  color: #333;
-  max-width: 800px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  
-  @media (min-width: 768px) {
-    font-size: 2.5rem;
-  }
-  
-  span {
-    display: block;
-    font-size: 1.5rem;
-    font-style: italic;
-    text-transform: none;
-    letter-spacing: 1px;
-    margin-top: 0.5rem;
-    
-    @media (min-width: 768px) {
-      font-size: 1.75rem;
-    }
-  }
-`;
-
-export default function HomePage() {
+export default function JourneyPage() {
   // State to track which page we're viewing
   const [currentPages, setCurrentPages] = useState<{ left: number; right: number }>({ left: 2, right: 3 });
 
@@ -205,7 +165,146 @@ export default function HomePage() {
         </BookPage>
       ),
 
-      // Additional pages would be defined here
+      // Page spread 12-13: Continue descending
+      12: (
+        <BookPage side="left" pageNumber={12}>
+          <PageHeading>The Deep Abyss</PageHeading>
+          
+          <PageText>
+            You, Melissa and Berger head to the rear of the warehouse. You think of the sun setting over Manhattan, hipsters wading in the shimmering, polluted water, playfully putting out the fires their cigarettes started in the oil slicks - that <em>has</em> to be where they mean to hold the pig!
+          </PageText>
+          
+          <PageText>
+            Lost in thought, you amble forward. The hallway twists a few turns before it opens up into a large... dungeon?
+          </PageText>
+          
+          <PageText>
+            The room is cavernous - your footsteps echo spookily. Mounted torches lick greedily at the gloomy darkness.
+          </PageText>
+          
+          <PageText>
+            Berger snorts. "Guess someone forgot to pay Con Ed tonight?" He laughs at his own awful joke, then freezes, crashing to the ground. "Dang," he scowls. "What in-"
+          </PageText>
+        </BookPage>
+      ),
+      13: (
+        <BookPage side="right" pageNumber={13}>
+          <PageText>
+            Splayed out before you, and all over Berger's sneaker, is something definitely dead, certainly ripped open, and - given the polo shirt and high tops - almost assuredly once human.
+          </PageText>
+          
+          <PageText>
+            "Oo," says Melissa. "Neat."
+          </PageText>
+          
+          <PageText>
+            "HALT!" comes a bellow from the darkness. "Who goes there?!" Your blood runs cold.
+          </PageText>
+          
+          <PageText>
+            "Geez, Ian, they've halted already," whines a second hidden voice. "There's really no need to yell."
+          </PageText>
+          
+          <PageText>
+            In the dim light, you make out two figures approaching - one holding a long club, the other quivering behind a crossbow.
+          </PageText>
+          
+          <PageIllustration 
+            src="/images/JOURNEY_UNDER_THE_SEA.webp"
+            alt="Two menacing figures approaching in a dimly lit dungeon"
+          />
+          
+          <PageText className="text-center mt-4">
+            Continue to page 26
+          </PageText>
+        </BookPage>
+      ),
+
+      // Page spread 14-15: Take depth readings
+      14: (
+        <BookPage side="left" pageNumber={14}>
+          <PageText>
+            Trying to keep the boat from plunging down the face of the wave, you put all your strength to the wheel, swinging the boat to the right, parallel to the wave.
+          </PageText>
+          
+          <PageText>
+            "Try to hold 'er!" Eric shouts. You snap on your safety harness and brace yourself as the wave rolls the <em>Allegro</em> all the way over on its side. A wall of water smashes over you.
+          </PageText>
+          
+          <PageText>
+            The wave has passed. You are still alive, but the <em>Allegro</em> is a battered hulk. The masts and sails are gone. Eric, Maiko, and Dr. Vivaldi are nowhere in sight. Pete lies moaning in the cockpit.
+          </PageText>
+          
+          <PageText>
+            "Are the others lost?" he asks.
+          </PageText>
+          
+          <PageText>
+            You sadly nod your head. "Are you OK?"
+          </PageText>
+          
+          <PageText>
+            "I think I cracked a rib," he says. "But forget about that. You'd better inflate the life raft." He gestures toward the bow of the boat. It is tilted down beneath the surface, and water is sloshing over the deck. "The wave smashed in the bow. We're going down."
+          </PageText>
+        </BookPage>
+      ),
+      15: (
+        <BookPage side="right" pageNumber={15}>
+          <PageText>
+            You quickly inflate the raft. Taking only enough time to grab a tin of biscuits and a jug of water, you help Pete into the raft and jump in behind him. You push off from the <em>Allegro</em>. Seconds later the sloop disappears beneath the waves. You and Pete say a prayer for your lost friends, and then one for yourselves.
+          </PageText>
+          
+          <PageIllustration 
+            src="/images/JOURNEY_UNDER_THE_SEA.webp"
+            alt="A life raft with two people adrift in stormy waters"
+          />
+          
+          <PageText className="text-center mt-4">
+            Turn to page 28
+          </PageText>
+        </BookPage>
+      ),
+
+      // Page spread 22-23: Examine the stone archway
+      22: (
+        <BookPage side="left" pageNumber={22}>
+          <PageHeading>The Ancient Gateway</PageHeading>
+          
+          <PageText>
+            You carefully approach the stone archway, brushing away centuries of sediment with your gloved hands. As you clear away more debris, you reveal intricate carvings that seem to depict an advanced civilization. Some of the symbols resemble modern mathematics and astronomy, but they're clearly thousands of years old.
+          </PageText>
+          
+          <PageText>
+            The arch itself is remarkably preserved, despite its apparent age. It's made of a strange, bluish-green stone that doesn't match the surrounding geology. As your headlamp illuminates the inner curve of the arch, you notice something even more unusual - the water within the archway seems to shimmer and distort, as if it's somehow different from the water surrounding you.
+          </PageText>
+          
+          <PageIllustration 
+            src="/images/JOURNEY_UNDER_THE_SEA.webp"
+            alt="A diver examining ancient carvings on an underwater archway"
+          />
+        </BookPage>
+      ),
+      23: (
+        <BookPage side="right" pageNumber={23}>
+          <PageText>
+            You report your findings to the <em>Maray</em> via your laser communicator. Dr. Rodriguez is ecstatic about your discovery. "This could be proof of Atlantis or another pre-flood civilization! Can you see if there's any way to activate the archway? Ancient texts often describe such structures as portals or gateways."
+          </PageText>
+          
+          <PageText>
+            As you examine the base of the arch, you find what appears to be a recessed panel with a handprint carved into it. The size matches that of a human hand, though the proportions are slightly different - longer fingers and a broader palm.
+          </PageText>
+          
+          <PageChoices>
+            <PageChoice href="#" onClick={() => handlePageTurn(42)} pageNumber={42}>
+              If you decide to place your hand on the carved handprint
+            </PageChoice>
+            
+            <PageChoice href="#" onClick={() => handlePageTurn(31)} pageNumber={31}>
+              If you decide it's too risky and return to the Seeker
+            </PageChoice>
+          </PageChoices>
+        </BookPage>
+      ),
     };
 
     return {
@@ -217,15 +316,9 @@ export default function HomePage() {
   const { leftPage, rightPage } = renderPages();
 
   return (
-    <PageContainer>
-      <BookTitle>
-        Journey Under the Sea
-        <span>Choose Your Own Adventure</span>
-      </BookTitle>
-      <BookLayout
-        leftPage={leftPage}
-        rightPage={rightPage}
-      />
-    </PageContainer>
+    <BookLayout
+      leftPage={leftPage}
+      rightPage={rightPage}
+    />
   );
-}
+} 

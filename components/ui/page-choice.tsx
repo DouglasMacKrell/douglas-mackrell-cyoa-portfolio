@@ -7,56 +7,46 @@
  * It includes optional page number references in the classic CYOA style.
  */
 
-import { cn } from "@/lib/utils"
-import Link from "next/link"
-import { ReactNode } from "react"
-import styled from 'styled-components'
+import { ButtonHTMLAttributes, ReactNode } from "react";
+import styled from "styled-components";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 
-interface PageChoiceProps {
-  children: ReactNode
-  href: string
-  className?: string
-  pageNumber?: number
-  onClick?: () => void
-}
-
+// Choice Container
 const ChoiceContainer = styled.div`
-  position: relative;
-  margin-bottom: 1rem;
-`;
-
-const ChoiceLink = styled(Link)`
-  display: block;
-  padding: 0.75rem 1rem;
-  background-color: #f1ede1;
-  border: 1px solid #d8d0b8;
-  border-radius: 4px;
-  color: #6b419f;
-  font-weight: bold;
-  text-decoration: none;
-  transition: all 0.2s ease;
+  display: flex;
+  align-items: flex-start;
+  margin: 0.75rem 0;
+  cursor: pointer;
   
   &:hover {
-    background-color: #e9e4d5;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Classic CYOA arrow indicator */
-  &::before {
-    content: '▶';
-    display: inline-block;
-    margin-right: 0.5rem;
-    font-size: 0.8em;
+    text-decoration: underline;
   }
 `;
 
-const PageNumberIndicator = styled.div`
-  font-size: 0.85em;
-  color: #777;
-  margin-top: 0.25rem;
-  text-align: right;
+// Choice Text - styled to match CYOA books
+const ChoiceText = styled.p`
   font-style: italic;
+  text-align: justify;
+  line-height: 1.6;
+  margin: 0;
 `;
+
+// Page Number Info
+const PageInfo = styled.span`
+  display: block;
+  text-align: right;
+  margin-top: 0.25rem;
+  font-style: normal;
+  color: #555;
+`;
+
+interface PageChoiceProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children: ReactNode;
+  pageNumber: number;
+  href?: string;
+  className?: string;
+}
 
 /**
  * A styled choice link for navigation between pages.
@@ -70,27 +60,31 @@ const PageNumberIndicator = styled.div`
  */
 export function PageChoice({ 
   children, 
-  href = '#', 
-  className, 
-  pageNumber,
-  onClick 
+  pageNumber, 
+  href,
+  className,
+  ...props
 }: PageChoiceProps) {
-  return (
-    <ChoiceContainer>
-      <ChoiceLink 
-        href={href} 
-        className={cn(className)}
-        onClick={onClick}
-        style={{ fontFamily: 'ITC Benguiat Std, var(--font-garamond)' }}
-      >
+  const content = (
+    <ChoiceContainer className={cn("page-choice", className)}>
+      <ChoiceText>
         {children}
-      </ChoiceLink>
-      
-      {pageNumber && (
-        <PageNumberIndicator>
-          Turn to page {pageNumber}
-        </PageNumberIndicator>
-      )}
+        <PageInfo>Turn to page {pageNumber}</PageInfo>
+      </ChoiceText>
     </ChoiceContainer>
-  )
+  );
+
+  if (href) {
+    return (
+      <Link href={href} passHref>
+        <div {...props}>{content}</div>
+      </Link>
+    );
+  }
+
+  return (
+    <div role="button" {...props}>
+      {content}
+    </div>
+  );
 } 

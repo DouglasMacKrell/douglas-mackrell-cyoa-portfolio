@@ -8,148 +8,200 @@
  * as the BookCover component to ensure visual consistency.
  */
 
-import { cn } from "@/lib/utils"
 import { ReactNode } from "react"
 import styled from 'styled-components'
+import { cn } from "@/lib/utils"
+import Image from "next/image"
 
-interface BookPageProps {
-  children: ReactNode
-  className?: string
-  side?: 'left' | 'right'
-}
-
-// Standard page styling to match book cover proportions
-const PageContainer = styled.div<{ $side?: 'left' | 'right' }>`
+// Book Page Container
+const PageContainer = styled.div<{ side: 'left' | 'right' }>`
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 2.5rem;
   height: 100%;
   position: relative;
-  background-color: #f8f5e8; /* Slightly off-white for authentic book page look */
-  box-shadow: ${props => 
-    props.$side === 'left' 
-      ? '2px 0 8px rgba(0, 0, 0, 0.1)' 
-      : '-2px 0 8px rgba(0, 0, 0, 0.1)'
-  };
-  border-radius: 4px;
-  padding: clamp(1rem, 3vh, 2rem);
-  overflow-y: auto;
+  background-color: #f8f5e6;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  line-height: 1.5;
+  text-align: justify;
+  color: #333;
   
-  /* Creates the appearance of a page edge */
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    ${props => props.$side === 'left' ? 'right: 0;' : 'left: 0;'}
-    width: 6px;
-    height: 100%;
-    background: linear-gradient(
-      to ${props => props.$side === 'left' ? 'left' : 'right'}, 
-      rgba(0, 0, 0, 0.05), 
-      transparent 70%
-    );
-    pointer-events: none;
+  h1, h2, h3 {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: normal;
   }
 `;
 
-// Content area for the page with proper margins
-const PageContent = styled.div`
-  height: 100%;
-  overflow-y: auto;
-  padding-bottom: 1rem;
+// Page Number
+const PageNumberContainer = styled.div<{ side: 'left' | 'right' }>`
+  position: absolute;
+  top: 2rem;
+  ${({ side }) => side === 'left' ? 'left: 2.5rem;' : 'right: 2.5rem;'}
+  font-size: 1.5rem;
+  font-weight: normal;
 `;
 
-/**
- * A standard book page component that matches the dimensions of the book cover.
- * Can be configured as either a left or right page in the spread.
- * 
- * @param children - Content to display on the page
- * @param className - Optional additional CSS classes
- * @param side - Which side of the book spread ('left' or 'right', defaults to 'right')
- */
-export function BookPage({ children, className, side = 'right' }: BookPageProps) {
+// Separator Line
+const SeparatorLine = styled.hr`
+  border: none;
+  border-top: 1px solid #999;
+  margin: 1.5rem 0;
+  width: 100%;
+`;
+
+// Choices Container
+const ChoicesContainer = styled.div`
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+// Text Container
+const TextContainer = styled.p`
+  margin: 0.75rem 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  
+  em {
+    font-style: italic;
+  }
+`;
+
+// Heading
+const HeadingContainer = styled.h2`
+  font-size: 1.25rem;
+  text-align: center;
+  margin: 1rem 0 1.5rem;
+`;
+
+// Quote Container
+const QuoteContainer = styled.blockquote`
+  font-style: italic;
+  margin: 1.5rem 2rem;
+  line-height: 1.6;
+  position: relative;
+  
+  &:before, &:after {
+    font-size: 1.5rem;
+    position: absolute;
+  }
+  
+  &:before {
+    content: """;
+    left: -1rem;
+    top: -0.5rem;
+  }
+  
+  &:after {
+    content: """;
+    right: -1rem;
+    bottom: -1rem;
+  }
+`;
+
+// Illustration Container
+const IllustrationContainer = styled.div<{ fullPage?: boolean }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: ${({ fullPage }) => fullPage ? '0' : '1.5rem 0'};
+  height: ${({ fullPage }) => fullPage ? '100%' : 'auto'};
+  
+  img {
+    max-width: 100%;
+    max-height: ${({ fullPage }) => fullPage ? '100%' : '300px'};
+    object-fit: contain;
+  }
+`;
+
+// Interface definitions
+interface BookPageProps {
+  children: ReactNode
+  side: 'left' | 'right'
+  pageNumber: number
+  className?: string
+}
+
+interface TextProps {
+  children: ReactNode
+  className?: string
+}
+
+interface HeadingProps {
+  children: ReactNode
+  className?: string
+}
+
+interface QuoteProps {
+  children: ReactNode
+  className?: string
+  author?: string
+}
+
+interface ChoicesProps {
+  children: ReactNode
+  className?: string
+}
+
+interface IllustrationProps {
+  src: string
+  alt: string
+  fullPage?: boolean
+  className?: string
+}
+
+// Component definitions
+export function BookPage({ children, side, pageNumber, className }: BookPageProps) {
   return (
-    <PageContainer 
-      $side={side} 
-      className={cn(
-        "h-full aspect-[3/4.25]", // Same aspect ratio as BookCover
-        className
-      )}
-    >
-      <PageContent>
-        {children}
-      </PageContent>
+    <PageContainer side={side} className={cn("book-page", className)}>
+      <PageNumberContainer side={side}>{pageNumber}</PageNumberContainer>
+      {children}
     </PageContainer>
   )
 }
 
-/**
- * Heading component styled specifically for book pages
- */
-export function PageHeading({ children, className }: { children: ReactNode, className?: string }) {
+export function PageText({ children, className }: TextProps) {
   return (
-    <h1 className={cn(
-      "text-[clamp(1.5rem,3vh,2.5rem)] text-purple-700 mb-4",
-      "font-bold leading-tight",
-      className
-    )}
-    style={{ fontFamily: 'ITC Benguiat Std, var(--font-garamond)' }}>
+    <TextContainer className={cn("page-text", className)}>
       {children}
-    </h1>
+    </TextContainer>
   )
 }
 
-/**
- * Standard paragraph text for book pages
- */
-export function PageText({ children, className }: { children: ReactNode, className?: string }) {
+export function PageHeading({ children, className }: HeadingProps) {
   return (
-    <p className={cn(
-      "text-[clamp(1rem,2vh,1.25rem)] text-gray-800 mb-4 leading-relaxed",
-      className
-    )}>
+    <HeadingContainer className={cn("page-heading", className)}>
       {children}
-    </p>
+    </HeadingContainer>
   )
 }
 
-/**
- * A component for page numbers that displays at the bottom of the page
- */
-export function PageNumber({ number, className }: { number: number, className?: string }) {
+export function PageQuote({ children, author, className }: QuoteProps) {
   return (
-    <div className={cn(
-      "absolute bottom-4 text-center w-full left-0 text-gray-600",
-      "text-[clamp(0.875rem,1.5vh,1.125rem)]",
-      className
-    )}>
-      {number}
-    </div>
+    <QuoteContainer className={cn("page-quote", className)}>
+      {children}
+      {author && <footer>— {author}</footer>}
+    </QuoteContainer>
   )
 }
 
-/**
- * A styled blockquote component for book pages
- */
-export function PageQuote({ children, className }: { children: ReactNode, className?: string }) {
+export function PageChoices({ children, className }: ChoicesProps) {
   return (
-    <blockquote className={cn(
-      "border-l-4 border-purple-700 pl-4 py-2 my-4",
-      "text-[clamp(0.875rem,1.8vh,1.125rem)] italic text-gray-700",
-      className
-    )}>
-      {children}
-    </blockquote>
+    <>
+      <SeparatorLine />
+      <ChoicesContainer className={cn("page-choices", className)}>
+        {children}
+      </ChoicesContainer>
+    </>
   )
 }
 
-/**
- * A component for choice options at the bottom of pages
- */
-export function PageChoices({ children, className }: { children: ReactNode, className?: string }) {
+export function PageIllustration({ src, alt, fullPage = false, className }: IllustrationProps) {
   return (
-    <div className={cn(
-      "mt-8 space-y-4",
-      className
-    )}>
-      {children}
-    </div>
+    <IllustrationContainer fullPage={fullPage} className={cn("page-illustration", className)}>
+      <img src={src} alt={alt} />
+    </IllustrationContainer>
   )
+} 
 } 
