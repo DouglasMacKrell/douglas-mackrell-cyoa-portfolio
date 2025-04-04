@@ -7,7 +7,7 @@ alwaysApply: true
 
 ### 🔄 Project Awareness & Context
 - **Always read `PLANNING.md`** at the start of a new conversation to understand the project's architecture, goals, style, and constraints.
-- **Check `TASK.md`** before starting a new task. If the task isn’t listed, add it with a brief description and today’s date.
+- **Check `TASK.md`** before starting a new task. If the task isn't listed, add it with a brief description and today's date.
 - **Use consistent naming conventions, file structure, and architecture patterns** as described in `PLANNING.md`.
 
 ---
@@ -23,12 +23,23 @@ alwaysApply: true
 ---
 
 ### 🎨 Frontend Style & UI
-- Use **Tailwind CSS** for utility-first styling.
-- Use **Styled Components** when component-level scoping or dynamic styling is needed.
-- Manage variants with **class-variance-authority (CVA)**.
-- Handle conditional classes using **clsx** and merge with **tailwind-merge** to avoid conflicts.
-- Use **Lucide React** for icons.
-- Prefer reusable, typed components with consistent props and variant patterns.
+- **Hybrid Styling Approach**:
+  - **Styled Components as primary** for complex UI components, masks, borders, animations, and state-dependent styles
+  - **Tailwind CSS as supportive** for layout, spacing, typography, and simple utilities
+- **When to use Styled Components**:
+  - Complex UI components (book cover, frames, etc.)
+  - Components with extensive styling needs
+  - Elements with state-dependent styling
+  - Animations and transitions
+- **When to use Tailwind**:
+  - Basic layout (flex, grid, positioning)
+  - Spacing (padding, margin)
+  - Typography classes
+  - Simple color utilities
+- **Styling Integration**:
+  - Use `cn()` utility (clsx + tailwind-merge) for conditional Tailwind classes
+  - Prefer component encapsulation over utility classes for reusable elements
+- Prefer reusable, typed components with consistent props and variant patterns
 
 ---
 
@@ -45,7 +56,7 @@ alwaysApply: true
 
 ### ✅ Task Completion
 - **Mark completed tasks in `TASK.md`** immediately after finishing them.
-- Add new sub-tasks or TODOs discovered during development to `TASK.md` under a “Discovered During Work” section.
+- Add new sub-tasks or TODOs discovered during development to `TASK.md` under a "Discovered During Work" section.
 
 ---
 

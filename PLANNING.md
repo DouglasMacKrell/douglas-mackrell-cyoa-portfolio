@@ -12,13 +12,21 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ### ✨ Frontend
 - **Framework**: Next.js 14.2.16 (React 18)
 - **Language**: TypeScript
-- **Styling**:
-  - Tailwind CSS (utility-first)
-  - Styled Components (component-specific styles)
+- **Styling** - Hybrid Approach:
+  - **Styled Components** (primary):
+    - Complex UI components (e.g., book cover, frames)
+    - Elements requiring advanced styling features (masks, complex borders)
+    - State-dependent styles
+    - Animations and transitions
+  - **Tailwind CSS** (supportive):
+    - Layout and spacing
+    - Typography
+    - Simple responsive utilities
+    - Color utilities
+  - **Integration**:
+    - clsx + tailwind-merge for class composition when needed
 - **UI/Variants**:
-  - class-variance-authority (CVA)
-  - clsx + tailwind-merge for class composition
-  - Lucide React for icons
+  - Use consistent prop patterns for component variants
 
 ### 🧪 Testing
 - Jest + React Testing Library
@@ -44,10 +52,10 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 - Each page turn:
   - Is fully animated (~0.5s max)
   - Can go forward or backward
-  - Supports “quick travel” links via branching choices
+  - Supports "quick travel" links via branching choices
 - Page content:
   - Anchored to the **right-hand page**
-  - First page should be a traditional “CYOA warning”
+  - First page should be a traditional "CYOA warning"
 - Quick-access links (resume, GitHub, LinkedIn) appear as floating "red pill" badges on the right
 
 ## 📏 Constraints & Guidelines
