@@ -1,5 +1,12 @@
 # ✅ TASK.md
 
+## 🚀 Immediate Priority
+- [ ] Create feature branch (docs/overhaul) to revamp documentation:
+  - [ ] Audit and clean existing documentation
+  - [ ] Organize project documentation structure
+  - [ ] Create foundation documents needed for ongoing development
+  - [ ] Standardize documentation format and conventions
+
 ## 🚧 Active Work
 - [x] Build initial page layout and full-screen book container
 - [x] Create animated "book entrance" effect from bottom of viewport (desktop)
