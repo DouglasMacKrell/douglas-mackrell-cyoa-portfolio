@@ -1,7 +1,6 @@
 'use client';
 
 import Image from "next/image";
-import Link from "next/link";
 import { 
   BookCover, 
   BrandBadge, 
@@ -12,9 +11,8 @@ import {
   CreditLine 
 } from "@/components/ui/book-cover";
 import { useState, useEffect } from "react";
-import VortexSpinnerComponent from '../components/ui/vortex-spinner';
 import styled from "styled-components";
-import GlitchProgressBar from '@/components/ui/loading/glitch-progress-bar';
+import React from "react";
 
 // Create a grunge overlay component for wear & tear effect
 const GrungeOverlay = styled.div`
@@ -39,25 +37,8 @@ const BookWrapper = styled.div`
   justify-content: center;
 `;
 
-// Full-page loading overlay
-const LoadingOverlay = styled.div<{ $isVisible: boolean }>`
-  position: fixed;
-  inset: 0;
-  background-color: #000235;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  opacity: ${props => props.$isVisible ? 1 : 0};
-  visibility: ${props => props.$isVisible ? 'visible' : 'hidden'};
-  transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
-  overflow: hidden;
-`;
-
 // Content container with fade-in animation
-const ContentContainer = styled.div<{ $isVisible: boolean }>`
-  opacity: ${props => props.$isVisible ? 1 : 0};
-  transition: opacity 0.5s ease-in;
+const ContentContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -66,207 +47,22 @@ const ContentContainer = styled.div<{ $isVisible: boolean }>`
   justify-content: center;
 `;
 
-// Pre-select a random image on the server side
-const heroImages = [
-  "/hero-image.webp",
-  "/hero-image-2.png",
-  "/hero-image-3.webp",
-  "/hero-image-4.webp",
-  "/hero-image-5.webp",
-  "/hero-image-6.webp"
-];
-
-// Characters for the Matrix effect (binary, tech symbols, etc.)
-const MATRIX_CHARS = "01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモ♯$%&#!?><@⚡︎★";
-
-// Use client-side only component to prevent hydration errors
-// Note: useEffect and useState are already imported above
-
-const MatrixColumn = ({ count = 15 }: { count?: number }) => {
-  // Add state to store the generated characters
-  const [chars, setChars] = useState<string[]>([]);
-  
-  // Generate characters only on the client side to avoid hydration mismatch
-  useEffect(() => {
-    // Randomly choose a character set focus for this column (more binary, more katakana, etc.)
-    const columnType = Math.floor(Math.random() * 4);
-    
-    const generatedChars = Array.from({ length: count }, (_, i) => {
-      // Create patterns where some columns favor certain character types
-      if (columnType === 0 && Math.random() > 0.3) {
-        // Binary-focused column (0s and 1s)
-        return Math.random() > 0.5 ? "0" : "1";
-      } else if (columnType === 1 && Math.random() > 0.4) {
-        // Katakana-focused column
-        const katakanaStart = MATRIX_CHARS.indexOf("ア");
-        const katakanaEnd = MATRIX_CHARS.indexOf("モ");
-        const randomIndex = katakanaStart + Math.floor(Math.random() * (katakanaEnd - katakanaStart));
-        return MATRIX_CHARS.charAt(randomIndex);
-      } else if (columnType === 2 && Math.random() > 0.5) {
-        // Symbols-focused column
-        const symbolStart = MATRIX_CHARS.indexOf("♯");
-        return MATRIX_CHARS.charAt(symbolStart + Math.floor(Math.random() * (MATRIX_CHARS.length - symbolStart)));
-      } else {
-        // Mixed column (completely random)
-        return MATRIX_CHARS.charAt(Math.floor(Math.random() * MATRIX_CHARS.length));
-      }
-    });
-    
-    setChars(generatedChars);
-  }, [count]);
-  
-  // Return empty spans during server-side rendering to prevent hydration mismatches
-  // Only show actual characters when they've been generated client-side
-  return (
-    <div className="matrix-column">
-      {chars.length > 0 ? 
-        chars.map((char, index) => (
-          <span key={index} className="matrix-character">{char}</span>
-        )) : 
-        Array.from({ length: count }).map((_, index) => (
-          <span key={index} className="matrix-character"></span>
-        ))
-      }
-    </div>
-  );
-};
+// Fixed cover image path
+const HERO_IMAGE = "/hero-image.png";
 
 export default function Home() {
-  // Define state for the hero image and loading state
-  const [heroImage, setHeroImage] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [fontsLoaded, setFontsLoaded] = useState(false);
-  const [contentVisible, setContentVisible] = useState(false);
-  const [loadingProgress, setLoadingProgress] = useState(0);
-
-  // Track all required assets for complete loading
+  // Single state for mounted to handle client-side only content
+  const [mounted, setMounted] = useState(false);
+  
+  // Set mounted state to handle client-side only content
   useEffect(() => {
-    // Handle font loading for better typography rendering
-    const loadFonts = async () => {
-      if (typeof document === 'undefined') return;
-      
-      try {
-        // Create a link for the custom fonts
-        const fontLink = document.createElement('link');
-        fontLink.href = 'https://fonts.googleapis.com/css2?family=VT323&family=Silkscreen&display=swap';
-        fontLink.rel = 'stylesheet';
-        document.head.appendChild(fontLink);
-        
-        // Check if the browser supports the font loading API
-        if ('fonts' in document) {
-          await document.fonts.ready;
-          setFontsLoaded(true);
-        } else {
-          // Fallback for browsers without font loading API
-          setTimeout(() => setFontsLoaded(true), 1000);
-        }
-      } catch (error) {
-        console.warn('Font loading issue:', error);
-        setFontsLoaded(true); // Continue anyway
-      }
-    };
-    
-    loadFonts();
+    setMounted(true);
   }, []);
-
-  // Choose a random hero image on component mount
-  useEffect(() => {
-    // Select a random image
-    const randomIndex = Math.floor(Math.random() * heroImages.length);
-    const selectedImage = heroImages[randomIndex];
-    
-    // Check if we're in the browser environment
-    if (typeof window !== 'undefined') {
-      // Preload the image
-      const img = new window.Image();
-      img.src = selectedImage;
-      
-      img.onload = () => {
-        // Once the image is loaded, update state
-        setHeroImage(selectedImage);
-        setIsLoading(false);
-      };
-      
-      img.onerror = () => {
-        console.warn('Image loading error. Proceeding anyway.');
-        setHeroImage(selectedImage);
-        setIsLoading(false);
-      };
-    } else {
-      // Server-side or during hydration, just set the image
-      setHeroImage(selectedImage);
-      setIsLoading(false);
-    }
-    
-    // Fallback in case onload doesn't trigger
-    const timer = setTimeout(() => {
-      if (isLoading) {
-        setHeroImage(selectedImage);
-        setIsLoading(false);
-      }
-    }, 1500); // Increased from 500ms to give image more time to load
-    
-    return () => clearTimeout(timer);
-  }, []); // Run once on mount
-
-  // Check if all assets are loaded and show content
-  useEffect(() => {
-    if (!isLoading && fontsLoaded) {
-      // Add a small delay to ensure smooth transitions
-      const timer = setTimeout(() => {
-        setContentVisible(true);
-      }, 300);
-      
-      return () => clearTimeout(timer);
-    }
-  }, [isLoading, fontsLoaded]);
-
-  // Effect to handle loading progress
-  useEffect(() => {
-    if (isLoading || !fontsLoaded) {
-      // Start from a small value to show some initial progress
-      setLoadingProgress(10);
-      
-      // Simulate progress
-      const interval = setInterval(() => {
-        setLoadingProgress(prev => {
-          // If we're close to 100% but not fully loaded, cap at 90%
-          if (prev >= 90 && (isLoading || !fontsLoaded)) {
-            return 90;
-          }
-          // Otherwise increment normally, capped at 100%
-          return Math.min(prev + (Math.random() * 10), 100);
-        });
-      }, 400);
-      
-      return () => clearInterval(interval);
-    } else {
-      // When loading is complete, ensure progress reaches 100%
-      setLoadingProgress(100);
-    }
-  }, [isLoading, fontsLoaded]);
 
   return (
     <main className="min-h-screen w-full flex flex-col items-center justify-center p-4">
-      {/* Full-page loading overlay with spinner */}
-      <LoadingOverlay $isVisible={!contentVisible}>
-        <div className="relative h-full w-full">
-          <VortexSpinnerComponent fullScreen={true} />
-          <div className="absolute bottom-20 left-0 right-0 flex justify-center items-center z-50">
-            <div className="w-5/12 shadow-lg shadow-green-500/30">
-              <GlitchProgressBar 
-                progress={loadingProgress} 
-                width="100%" 
-                height={38}
-                loadingText="SYSTEM BOOT SEQUENCE"
-              />
-            </div>
-          </div>
-        </div>
-      </LoadingOverlay>
-      
-      <ContentContainer $isVisible={contentVisible}>
-        <div className="w-full h-[95vh] flex flex-col items-center justify-center gap-6">
+      <ContentContainer>
+        <div className="w-full h-[95vh] flex flex-col items-center justify-center">
           <div className="w-full h-full max-h-[95vh] flex items-center justify-center">
             {/* Use BookWrapper to constrain GrungeOverlay */}
             <BookWrapper>
@@ -283,7 +79,7 @@ export default function Home() {
                     {/* Text Section */}
                     <div className="text-center px-6 sm:px-8 pb-6">
                       <Subtitle>
-                        YOU'RE THE STAR OF THE STORY!<br />
+                        YOU&apos;RE THE STAR OF THE STORY!<br />
                         CHOOSE FROM 42 POSSIBLE ENDINGS.
                       </Subtitle>
                       
@@ -299,9 +95,9 @@ export default function Home() {
                     <div className="flex-grow px-6 sm:px-12 pb-1">
                       <div className="h-[95%]">
                         <IllustrationFrame className="h-full">
-                          {heroImage && (
+                          {mounted && (
                             <Image
-                              src={heroImage}
+                              src={HERO_IMAGE}
                               alt="Retro cyberpunk scene with programmer"
                               fill
                               sizes="(max-width: 768px) 100vw, 50vw"
@@ -321,15 +117,6 @@ export default function Home() {
               </BookCover>
             </BookWrapper>
           </div>
-
-          {/* CTA Button */}
-          <Link 
-            href="/start" 
-            className="bg-red-600 text-white text-xl sm:text-2xl px-8 py-3 rounded-full font-bold hover:bg-red-700 transition-colors shadow-lg"
-            style={{ fontFamily: 'ITC Benguiat Std, var(--font-garamond)' }}
-          >
-            BEGIN YOUR ADVENTURE
-          </Link>
         </div>
       </ContentContainer>
     </main>

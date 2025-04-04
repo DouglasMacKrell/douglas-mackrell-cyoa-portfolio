@@ -1,5 +1,22 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Tech Stack
+
+This project is built with the following technologies:
+
+- **Frontend Framework**: [Next.js](https://nextjs.org/) 14.2.16 (React 18)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: 
+  - [Tailwind CSS](https://tailwindcss.com/) for utility-first CSS
+  - [Styled Components](https://styled-components.com/) for component-based styling
+- **UI Development**:
+  - [class-variance-authority](https://cva.style/docs) for component variant management
+  - [clsx](https://github.com/lukeed/clsx) and [tailwind-merge](https://github.com/dcastil/tailwind-merge) for conditional class name handling
+  - [Lucide React](https://lucide.dev/) for icons
+- **Code Quality**:
+  - ESLint for code linting
+  - TypeScript for static type checking
+
 ## Getting Started
 
 First, run the development server:

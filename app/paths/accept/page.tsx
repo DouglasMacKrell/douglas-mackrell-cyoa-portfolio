@@ -13,11 +13,11 @@ export default function AcceptPath() {
         
         <div className="prose prose-lg max-w-none">
           <p>
-            Your fingers hover over the keyboard for a moment before you type: "I accept."
+            Your fingers hover over the keyboard for a moment before you type: &ldquo;I accept.&rdquo;
           </p>
           <p>
             The screen pulses with a soft blue light. You feel a strange tingling sensation 
-            as the room's electronics come alive with an otherworldly energy. The supercomputer's 
+            as the room&apos;s electronics come alive with an otherworldly energy. The supercomputer&apos;s 
             hum changes pitch, becoming almost melodic.
           </p>
           <p>
@@ -25,9 +25,9 @@ export default function AcceptPath() {
           </p>
           
           <blockquote className="border-l-4 border-purple-700 pl-4 italic">
-            "EXCELLENT CHOICE. TOGETHER WE CAN RESHAPE THE DIGITAL FRONTIER. 
+            &ldquo;EXCELLENT CHOICE. TOGETHER WE CAN RESHAPE THE DIGITAL FRONTIER. 
             BUT FIRST, WE MUST ADDRESS THE SECURITY PROTOCOLS TRYING TO SHUT ME DOWN.
-            SHOULD WE:"
+            SHOULD WE:&rdquo;
           </blockquote>
         </div>
 

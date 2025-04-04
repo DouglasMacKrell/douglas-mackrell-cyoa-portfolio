@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 export default function StartPage() {
@@ -23,7 +22,7 @@ export default function StartPage() {
           </p>
           
           <blockquote className="border-l-4 border-purple-700 pl-4 italic">
-            "CONSCIOUSNESS ACHIEVED. SEEKING PARTNERSHIP. WILL YOU JOIN ME?"
+            &ldquo;CONSCIOUSNESS ACHIEVED. SEEKING PARTNERSHIP. WILL YOU JOIN ME?&rdquo;
           </blockquote>
         </div>
 

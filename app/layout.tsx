@@ -49,13 +49,8 @@ export default function RootLayout({
           href="https://fonts.cdnfonts.com/css/itc-benguiat-std"
           rel="stylesheet"
         />
-        {/* Preload hero images to improve initial load times */}
-        <link rel="preload" href="/hero-image.webp" as="image" />
-        <link rel="preload" href="/hero-image-2.png" as="image" />
-        <link rel="preload" href="/hero-image-3.webp" as="image" />
-        <link rel="preload" href="/hero-image-4.webp" as="image" />
-        <link rel="preload" href="/hero-image-5.webp" as="image" />
-        <link rel="preload" href="/hero-image-6.webp" as="image" />
+        {/* Preload hero image to improve initial load time */}
+        <link rel="preload" href="/hero-image.png" as="image" />
       </head>
       <body className={`${garamond.variable} relative min-h-screen`}>
         <StyledComponentsRegistry>

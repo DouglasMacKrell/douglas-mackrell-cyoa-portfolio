@@ -335,15 +335,27 @@ const GlitchProgressBar: React.FC<GlitchProgressBarProps> = ({
 }) => {
   const [currentProgress, setCurrentProgress] = useState(progress);
   
-  // Handle auto progress
+  // Handle external progress updates ONLY when autoProgress is false
+  // This is critical to prevent the infinite update loop
   useEffect(() => {
-    if (!autoProgress) {
+    if (autoProgress) return; // Skip if auto-progressing
+    
+    // Only update when progress actually changes
+    if (progress !== currentProgress) {
       setCurrentProgress(progress);
-      return;
     }
+  }, [progress, autoProgress, currentProgress]);
+  
+  // Completely separate effect for auto-progress mode
+  useEffect(() => {
+    if (!autoProgress) return; // Only run in auto-progress mode
     
     const startTime = Date.now();
+    let isMounted = true;
+    
     const interval = setInterval(() => {
+      if (!isMounted) return;
+      
       const elapsedTime = Date.now() - startTime;
       const calculatedProgress = Math.min(100, (elapsedTime / duration) * 100);
       
@@ -354,8 +366,14 @@ const GlitchProgressBar: React.FC<GlitchProgressBarProps> = ({
       }
     }, 50); // Update frequently for smooth animation
     
-    return () => clearInterval(interval);
-  }, [progress, autoProgress, duration]);
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+    
+    // Only depend on autoProgress and duration
+    // Explicitly NOT depending on currentProgress which would cause loop
+  }, [autoProgress, duration]);
   
   return (
     <ProgressBarWrapper className={className} $width={width}>

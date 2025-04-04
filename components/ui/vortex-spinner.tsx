@@ -981,9 +981,9 @@ const VortexSpinnerComponent: React.FC<VortexSpinnerProps> = ({
         // Exponential growth for spiral - adjusted for increased tapering
         const radius = 5 + Math.pow(i, 1.65) * 3.7; // Adjusted exponent and multiplier
         
-        // Calculate position
-        const x = radius * Math.cos(angle * Math.PI / 180);
-        const y = radius * Math.sin(angle * Math.PI / 180);
+        // Calculate position - Ensure consistent decimal precision to avoid hydration mismatches
+        const x = parseFloat((radius * Math.cos(angle * Math.PI / 180)).toFixed(15));
+        const y = parseFloat((radius * Math.sin(angle * Math.PI / 180)).toFixed(15));
         
         // Deterministic character selection with previous character awareness
         const charIndex = t * charsPerTendril + i;
@@ -1064,15 +1064,12 @@ const VortexSpinnerComponent: React.FC<VortexSpinnerProps> = ({
       const recentChars: string[] = [];
       
       for (let i = 0; i < charsPerTendril; i++) {
-        // Use a more spaced out distribution for clockwise spiral
-        const angle = startAngle + (i * 5.2); // Increased from 4.2 to 5.2 for more spacing
+        const angle = startAngle + (i * 5);
+        const radius = 5 + Math.pow(i, 1.65) * 3.7;
         
-        // Modified spiral pattern to enhance the clockwise effect
-        const radius = 8 + Math.pow(i, 1.5) * 3.7; // Adjusted exponent and multiplier
-        
-        // Calculate position
-        const x = radius * Math.cos(angle * Math.PI / 180);
-        const y = radius * Math.sin(angle * Math.PI / 180);
+        // Use fixed precision for position calculations
+        const x = parseFloat((radius * Math.cos(angle * Math.PI / 180)).toFixed(15));
+        const y = parseFloat((radius * Math.sin(angle * Math.PI / 180)).toFixed(15));
         
         // Deterministic character selection with different seed and previous character awareness
         const charIndex = t * charsPerTendril + i + 1000; // Add offset to get different chars from main spiral
@@ -1110,11 +1107,43 @@ const VortexSpinnerComponent: React.FC<VortexSpinnerProps> = ({
     return characters;
   };
   
-  // Generate character arrays only once to avoid hydration mismatch
-  // OPTIMIZATION: Use memoization to prevent unnecessary recalculations
-  const vortexText = useMemo(() => generateVortexText(), [generateVortexText]);
-  const secondaryVortexText = useMemo(() => generateSecondaryVortexText(), [generateSecondaryVortexText]);
+  // Generate character arrays only once with fixed seed
+  // Use React.useMemo with empty deps array to ensure the exact same result on server and client
+  const vortexText = useMemo(() => generateVortexText(), []);
+  const secondaryVortexText = useMemo(() => generateSecondaryVortexText(), []);
+
+  // Handle server-side rendering gracefully
+  if (typeof window === 'undefined') {
+    // Return a simplified version for SSR to avoid hydration mismatches
+    return (
+      <VortexContainer 
+        className={className}
+        style={style}
+        $size={size}
+        $fullScreen={fullScreen}
+        role="progressbar"
+        aria-label="Loading"
+      >
+        <Background $fullScreen={fullScreen} />
+        <SynthwaveSun $fullScreen={fullScreen} />
+        <Mountains />
+        <Horizon />
+        <LaserGrid />
+        <Grid />
+        <VerticalLines />
+        <VortexSpinner ref={spinnerRef}>
+          <Ring />
+          <Core />
+        </VortexSpinner>
+        <CRTOverlay $fullScreen={fullScreen}>
+          <Scanlines />
+          <VignetteEffect />
+        </CRTOverlay>
+      </VortexContainer>
+    );
+  }
   
+  // Client-side rendering with full effects
   return (
     <VortexContainer 
       className={className}
@@ -1129,53 +1158,58 @@ const VortexSpinnerComponent: React.FC<VortexSpinnerProps> = ({
       <SynthwaveSun $fullScreen={fullScreen} />
       <Mountains />
       <Horizon />
-      <LaserGrid /> {/* Moved after Horizon to properly align it */}
+      <LaserGrid />
       <Grid />
       <VerticalLines />
       <VortexSpinner ref={spinnerRef}>
         <Ring />
         <DataStream />
         
-        {/* Secondary clockwise spiral (dimmer, behind main spiral) */}
-        <SecondSpiralContainer>
-          {secondaryVortexText.map((char, i) => (
-            <SecondaryTextChar
-              key={`secondary-${i}`}
-              $x={char.x}
-              $y={char.y}
-              $size={char.size}
-              $angle={char.angle}
-              $color={char.color}
-              $scaleFactor={scaleFactor}
-            >
-              {char.char}
-            </SecondaryTextChar>
-          ))}
-        </SecondSpiralContainer>
-        
-        {/* Main counter-clockwise spiral */}
-        <SpiralContainer>
-          {vortexText.map((char, i) => (
-            <TextChar
-              key={`vortex-${i}`}
-              $x={char.x}
-              $y={char.y}
-              $size={char.size}
-              $angle={char.angle}
-              $delay={char.delay}
-              $color={char.color}
-              $scaleFactor={scaleFactor}
-              $glitchIntensity={char.glitchIntensity}
-            >
-              {char.char}
-            </TextChar>
-          ))}
-        </SpiralContainer>
+        {/* Only render these on the client side */}
+        {isClient && (
+          <>
+            {/* Secondary clockwise spiral */}
+            <SecondSpiralContainer>
+              {secondaryVortexText.map((char, i) => (
+                <SecondaryTextChar
+                  key={`secondary-${i}`}
+                  $x={char.x}
+                  $y={char.y}
+                  $size={char.size}
+                  $angle={char.angle}
+                  $color={char.color}
+                  $scaleFactor={scaleFactor}
+                >
+                  {char.char}
+                </SecondaryTextChar>
+              ))}
+            </SecondSpiralContainer>
+            
+            {/* Main counter-clockwise spiral */}
+            <SpiralContainer>
+              {vortexText.map((char, i) => (
+                <TextChar
+                  key={`vortex-${i}`}
+                  $x={char.x}
+                  $y={char.y}
+                  $size={char.size}
+                  $angle={char.angle}
+                  $delay={char.delay}
+                  $color={char.color}
+                  $scaleFactor={scaleFactor}
+                  $glitchIntensity={char.glitchIntensity}
+                >
+                  {char.char}
+                </TextChar>
+              ))}
+            </SpiralContainer>
+          </>
+        )}
         
         <Core />
       </VortexSpinner>
       
-      {/* CRT overlay effects - increased z-index to ensure it covers everything */}
+      {/* CRT overlay effects */}
       <CRTOverlay $fullScreen={fullScreen}>
         <Scanlines />
         <TrackingDistortion />

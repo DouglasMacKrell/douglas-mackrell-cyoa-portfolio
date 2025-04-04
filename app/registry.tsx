@@ -11,8 +11,7 @@ export function StyledComponentsRegistry({
 }: {
   children: React.ReactNode;
 }) {
-  // Only create stylesheet once with lazy initial state
-  // x-ref: https://reactjs.org/docs/hooks-reference.html#lazy-initial-state
+  // Create stylesheet once with lazy initial state
   const [styledComponentsStyleSheet] = useState(() => new ServerStyleSheet());
 
   useServerInsertedHTML(() => {
@@ -21,8 +20,12 @@ export function StyledComponentsRegistry({
     return <>{styles}</>;
   });
 
-  if (typeof window !== 'undefined') return <>{children}</>;
+  // If we're in the browser, render children without StyleSheetManager
+  if (typeof window !== 'undefined') {
+    return <>{children}</>;
+  }
 
+  // If we're on the server, render with StyleSheetManager
   return (
     <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
       {children}

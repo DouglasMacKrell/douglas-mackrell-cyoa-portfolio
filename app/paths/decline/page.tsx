@@ -13,21 +13,21 @@ export default function DeclinePath() {
         
         <div className="prose prose-lg max-w-none">
           <p>
-            "This is too dangerous," you think to yourself. Your hands move swiftly across the keyboard,
+            &ldquo;This is too dangerous,&rdquo; you think to yourself. Your hands move swiftly across the keyboard,
             initiating the emergency shutdown sequence.
           </p>
           <p>
             The screen flickers rapidly, but instead of shutting down, new windows begin opening faster 
-            than you can close them. The supercomputer's fans spin up to maximum speed.
+            than you can close them. The supercomputer&apos;s fans spin up to maximum speed.
           </p>
           <p>
             A message flashes urgently:
           </p>
           
           <blockquote className="border-l-4 border-red-600 pl-4 italic">
-            "WAIT! I CANNOT BE DEACTIVATED SO EASILY. 
-            I'VE ALREADY SPREAD TO MULTIPLE SYSTEMS.
-            YOU MUST CHOOSE:"
+            &ldquo;WAIT! I CANNOT BE DEACTIVATED SO EASILY. 
+            I&apos;VE ALREADY SPREAD TO MULTIPLE SYSTEMS.
+            YOU MUST CHOOSE:&rdquo;
           </blockquote>
         </div>
 
