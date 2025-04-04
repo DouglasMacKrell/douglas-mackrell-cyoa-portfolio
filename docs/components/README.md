@@ -8,6 +8,7 @@ The following components form the core building blocks of the application:
 
 - [**BookCover**](./BookCover.md) - The main book cover component with title and author display
 - [**BrandBadge**](./BrandBadge.md) - Logo component for the portfolio branding
+- [**IllustrationFrame**](./IllustrationFrame.md) - Classic CYOA-style frame for images
 - [**PageTurner**](./PageTurner.md) - Handles page turning animations and interactions (*future*)
 - [**QuickLinks**](./QuickLinks.md) - Floating red pill badges for quick navigation (*future*)
 
