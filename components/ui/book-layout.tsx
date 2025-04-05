@@ -18,11 +18,12 @@ const BookContainer = styled.div`
   width: 100%;
   height: 100%;
   min-height: 70vh;
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 2rem auto;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-  background-color: #eeeae0;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  background-color: #ece8dd;
   position: relative;
+  border-radius: 2px;
   
   /* Book spine shadow */
   &::after {
@@ -31,12 +32,12 @@ const BookContainer = styled.div`
     top: 0;
     left: 50%;
     height: 100%;
-    width: 4px;
+    width: 6px;
     background: linear-gradient(
       to right,
-      rgba(0, 0, 0, 0.1),
-      rgba(0, 0, 0, 0.2),
-      rgba(0, 0, 0, 0.1)
+      rgba(0, 0, 0, 0.15),
+      rgba(0, 0, 0, 0.25),
+      rgba(0, 0, 0, 0.15)
     );
     transform: translateX(-50%);
     z-index: 10;
@@ -56,20 +57,18 @@ const BookSpread = styled.div`
 // Page column
 const PageColumn = styled.div`
   flex: 1;
-  border: 1px solid #d5d0c0;
   position: relative;
   overflow: hidden;
-  background-color: rgba(248, 245, 230, 0.8);
   
   /* Left page has different shadow than right page */
   &:first-child {
-    box-shadow: inset -8px 0 10px -6px rgba(0, 0, 0, 0.15);
-    border-right: none;
+    border-right: 1px solid #ddd;
+    box-shadow: inset -5px 0 10px -6px rgba(0, 0, 0, 0.2);
   }
   
   &:last-child {
-    box-shadow: inset 8px 0 10px -6px rgba(0, 0, 0, 0.15);
-    border-left: none;
+    border-left: 1px solid #ddd;
+    box-shadow: inset 5px 0 10px -6px rgba(0, 0, 0, 0.2);
   }
 `;
 

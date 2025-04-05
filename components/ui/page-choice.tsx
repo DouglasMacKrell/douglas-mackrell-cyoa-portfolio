@@ -25,19 +25,21 @@ const ChoiceContainer = styled.div`
 `;
 
 // Choice Text - styled to match CYOA books
-const ChoiceText = styled.p`
+const ChoiceText = styled.div`
   font-style: italic;
   text-align: justify;
   line-height: 1.6;
   margin: 0;
+  width: 100%;
 `;
 
 // Page Number Info
-const PageInfo = styled.span`
+const PageInfo = styled.div`
   display: block;
   text-align: right;
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
   font-style: normal;
+  font-size: 0.9rem;
   color: #555;
 `;
 

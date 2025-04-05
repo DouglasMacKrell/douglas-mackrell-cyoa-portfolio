@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils"
 import Image from "next/image"
 
 // Book Page Container
-const PageContainer = styled.div<{ side: 'left' | 'right' }>`
+const PageContainer = styled.div<{ $side: 'left' | 'right' }>`
   display: flex;
   flex-direction: column;
   padding: 2rem 2.5rem;
@@ -30,13 +30,22 @@ const PageContainer = styled.div<{ side: 'left' | 'right' }>`
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-weight: normal;
   }
+  
+  /* First paragraph styling with drop cap */
+  & > p:first-of-type::first-letter {
+    font-size: 2.5rem;
+    font-weight: bold;
+    float: left;
+    line-height: 1;
+    margin-right: 0.1em;
+  }
 `;
 
 // Page Number
-const PageNumberContainer = styled.div<{ side: 'left' | 'right' }>`
+const PageNumberContainer = styled.div<{ $side: 'left' | 'right' }>`
   position: absolute;
   top: 2rem;
-  ${({ side }) => side === 'left' ? 'left: 2.5rem;' : 'right: 2.5rem;'}
+  ${({ $side }) => $side === 'left' ? 'left: 2.5rem;' : 'right: 2.5rem;'}
   font-size: 1.5rem;
   font-weight: normal;
 `;
@@ -101,17 +110,18 @@ const QuoteContainer = styled.blockquote`
 `;
 
 // Illustration Container
-const IllustrationContainer = styled.div<{ fullPage?: boolean }>`
+const IllustrationContainer = styled.div<{ $fullPage?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: ${({ fullPage }) => fullPage ? '0' : '1.5rem 0'};
-  height: ${({ fullPage }) => fullPage ? '100%' : 'auto'};
+  margin: ${({ $fullPage }) => $fullPage ? '0' : '1.5rem 0'};
+  height: ${({ $fullPage }) => $fullPage ? '100%' : 'auto'};
   
   img {
     max-width: 100%;
-    max-height: ${({ fullPage }) => fullPage ? '100%' : '300px'};
+    max-height: ${({ $fullPage }) => $fullPage ? '100%' : '300px'};
     object-fit: contain;
+    border: 1px solid #ccc;
   }
 `;
 
@@ -154,8 +164,8 @@ interface IllustrationProps {
 // Component definitions
 export function BookPage({ children, side, pageNumber, className }: BookPageProps) {
   return (
-    <PageContainer side={side} className={cn("book-page", className)}>
-      <PageNumberContainer side={side}>{pageNumber}</PageNumberContainer>
+    <PageContainer $side={side} className={cn("book-page", className)}>
+      <PageNumberContainer $side={side}>{pageNumber}</PageNumberContainer>
       {children}
     </PageContainer>
   )
@@ -199,9 +209,8 @@ export function PageChoices({ children, className }: ChoicesProps) {
 
 export function PageIllustration({ src, alt, fullPage = false, className }: IllustrationProps) {
   return (
-    <IllustrationContainer fullPage={fullPage} className={cn("page-illustration", className)}>
+    <IllustrationContainer $fullPage={fullPage} className={cn("page-illustration", className)}>
       <img src={src} alt={alt} />
     </IllustrationContainer>
   )
-} 
 } 

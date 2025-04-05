@@ -11,6 +11,20 @@ import {
   PageIllustration
 } from "@/components/ui/book-page";
 import { PageChoice } from "@/components/ui/page-choice";
+import styled from 'styled-components';
+
+// Page container 
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 0;
+  background-image: url('/Background_image_01.jpg');
+  background-size: cover;
+  background-position: center;
+`;
 
 export default function JourneyPage() {
   // State to track which page we're viewing
@@ -316,9 +330,11 @@ export default function JourneyPage() {
   const { leftPage, rightPage } = renderPages();
 
   return (
-    <BookLayout
-      leftPage={leftPage}
-      rightPage={rightPage}
-    />
+    <PageContainer>
+      <BookLayout
+        leftPage={leftPage}
+        rightPage={rightPage}
+      />
+    </PageContainer>
   );
 } 

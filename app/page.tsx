@@ -13,14 +13,17 @@ import {
 import { PageChoice } from "@/components/ui/page-choice";
 import styled from 'styled-components';
 
-// Page container with title
+// Page container with no title
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   min-height: 100vh;
-  padding: 2rem 1rem;
-  background-color: #f5f3ee;
+  padding: 0;
+  background-image: url('/Background_image_01.jpg');
+  background-size: cover;
+  background-position: center;
 `;
 
 // Title of the CYOA book
@@ -200,7 +203,7 @@ export default function HomePage() {
           />
           
           <PageText>
-            As your gloved hand traces one of the symbols, it begins to glow with a faint blue light. Suddenly, all the symbols illuminate in sequence, and the ground beneath you trembles.
+            As your gloved hand traced one of the symbols, it began to glow with a faint blue light. Suddenly, all the symbols illuminated in sequence, and the ground beneath you trembled.
           </PageText>
         </BookPage>
       ),
@@ -218,10 +221,6 @@ export default function HomePage() {
 
   return (
     <PageContainer>
-      <BookTitle>
-        Journey Under the Sea
-        <span>Choose Your Own Adventure</span>
-      </BookTitle>
       <BookLayout
         leftPage={leftPage}
         rightPage={rightPage}
