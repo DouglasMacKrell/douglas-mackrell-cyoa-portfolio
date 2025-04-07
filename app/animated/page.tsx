@@ -5,7 +5,7 @@ import { AnimatedBook } from "@/components/ui/animated-book";
 import styled from 'styled-components';
 import Image from 'next/image';
 
-// Page container 
+// Page container with animation
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -16,6 +16,24 @@ const PageContainer = styled.div`
   background-image: url('/Background_image_01.jpg');
   background-size: cover;
   background-position: center;
+`;
+
+// Animated book container with slide-up animation
+const AnimatedContainer = styled.div`
+  @keyframes slideUp {
+    from { 
+      transform: translateY(50vh); 
+      opacity: 0; 
+    }
+    to { 
+      transform: translateY(0); 
+      opacity: 1; 
+    }
+  }
+  animation: slideUp 1.2s ease-out;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 `;
 
 // Text Container - Matching the CYOA book text style
@@ -192,7 +210,13 @@ export default function AnimatedJourneyPage() {
 
   return (
     <PageContainer>
-      <AnimatedBook pages={pages} startPage={0} />
+      <AnimatedContainer>
+        <AnimatedBook 
+          pages={pages} 
+          startPage={0} 
+          showNavButtons={false}
+        />
+      </AnimatedContainer>
     </PageContainer>
   );
 } 
