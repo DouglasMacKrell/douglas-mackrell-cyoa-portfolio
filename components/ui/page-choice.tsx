@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 
 // Choice Container - Styled like authentic CYOA book choices
 const ChoiceContainer = styled.div`
-  margin: 0.5rem 0 0.75rem;
+  margin: 0.25rem 0 0.5rem;
   cursor: pointer;
   
   &:hover {
@@ -34,7 +34,7 @@ const ChoiceText = styled.div`
 const PageInfo = styled.div`
   display: block;
   text-align: right;
-  margin-top: 0.2rem;
+  margin-top: 0.1rem;
   font-style: italic;
   font-size: 0.9rem;
 `;

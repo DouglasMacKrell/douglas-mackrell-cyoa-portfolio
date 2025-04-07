@@ -16,13 +16,13 @@ import { cn } from "@/lib/utils"
 const BookContainer = styled.div`
   display: flex;
   width: 100%;
-  height: 100%;
-  min-height: 70vh;
-  max-width: 900px;
+  max-width: 1200px;
+  height: 95vh;
   margin: 2rem auto;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   background-color: #fffcf5;
   position: relative;
+  overflow: hidden; /* Prevent scrolling */
   
   /* Book spine shadow */
   &::after {
@@ -49,6 +49,10 @@ const BookSpread = styled.div`
   width: 100%;
   height: 100%;
   background-color: #fffcf5;
+  background-image: url('/images/paper-texture.png');
+  background-size: 500px;
+  background-repeat: repeat;
+  overflow: hidden; /* Prevent scrolling */
 `;
 
 // Page column - using the off-white color from CYOA books
@@ -56,7 +60,7 @@ const PageColumn = styled.div`
   flex: 1;
   position: relative;
   overflow: hidden;
-  background-color: #fffcf5;
+  background-color: transparent; /* Let the paper texture show through */
   
   /* Left page has different shadow than right page */
   &:first-child {

@@ -12,17 +12,36 @@ import { ReactNode } from "react"
 import styled from 'styled-components'
 import { cn } from "@/lib/utils"
 
-// Book Page Container
+// Book Page Container - Main container that places footer at bottom
 const PageContainer = styled.div<{ $side: 'left' | 'right' }>`
   display: flex;
   flex-direction: column;
-  padding: 2rem 2.5rem 1.5rem;
+  padding: 2.5rem 2.5rem 1.5rem;
   height: 100%;
   position: relative;
   font-family: Georgia, 'Times New Roman', Times, serif;
   line-height: 1.5;
   text-align: justify;
   color: #333;
+  background: transparent; /* Let parent texture show through */
+  overflow: hidden; /* Prevent scrolling */
+  
+  /* Main content area */
+  .page-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-top: 1.5rem; /* Space for page number */
+    overflow: hidden; /* Prevent scrolling */
+  }
+  
+  /* Footer area - absolute bottom positioning */
+  .page-footer {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 2.5rem;
+    right: 2.5rem;
+  }
   
   h1, h2, h3 {
     font-family: Georgia, 'Times New Roman', Times, serif;
@@ -30,20 +49,22 @@ const PageContainer = styled.div<{ $side: 'left' | 'right' }>`
   }
 `;
 
-// Page Number - Simple upper corner number based on CYOA scans
+// Page Number - Make sure it's identical on both sides
 const PageNumberContainer = styled.div<{ $side: 'left' | 'right' }>`
   position: absolute;
   top: 1.25rem;
-  ${({ $side }) => $side === 'left' ? 'left: 2.5rem;' : 'right: 2.5rem;'}
-  font-size: 1rem;
-  font-weight: normal;
+  ${({ $side }) => $side === 'left' ? 'left: 2.5rem;' : 'right: 2.5rem;'};
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1;
+  font-family: Georgia, 'Times New Roman', Times, serif;
 `;
 
 // Export the SeparatorLine so it can be used directly
 export const SeparatorLine = styled.hr`
   border: none;
-  border-top: 1px solid #999;
-  margin: auto 0 0.5rem 0;
+  border-top: 1px solid #777;
+  margin: 0 0 0.75rem 0;
   width: 100%;
 `;
 
@@ -109,11 +130,11 @@ const IllustrationContainer = styled.div<{ $fullPage?: boolean }>`
   }
 `;
 
-// Turn Page Instruction - Matches the italic instruction at bottom of CYOA pages
+// Turn Page Container - Positioned at the bottom
 const TurnPageContainer = styled.div`
   font-style: italic;
   text-align: right;
-  margin: 0.5rem 0 0 0;
+  margin: 0;
   font-size: 0.9rem;
 `;
 
@@ -163,7 +184,9 @@ export function BookPage({ children, side, pageNumber, className }: BookPageProp
   return (
     <PageContainer $side={side} className={cn("book-page", className)}>
       <PageNumberContainer $side={side}>{pageNumber}</PageNumberContainer>
-      {children}
+      <div className="page-content">
+        {children}
+      </div>
     </PageContainer>
   )
 }
@@ -195,21 +218,23 @@ export function PageQuote({ children, author, className }: QuoteProps) {
 
 export function PageChoices({ children, className }: ChoicesProps) {
   return (
-    <>
+    <div className="page-footer">
       <SeparatorLine />
-      {children}
-    </>
+      <div className={cn("page-choices", className)}>
+        {children}
+      </div>
+    </div>
   );
 }
 
 export function TurnPage({ pageNumber, className }: TurnPageProps) {
   return (
-    <>
+    <div className="page-footer">
       <SeparatorLine />
       <TurnPageContainer className={cn("turn-page", className)}>
         Turn to page {pageNumber}.
       </TurnPageContainer>
-    </>
+    </div>
   );
 }
 
