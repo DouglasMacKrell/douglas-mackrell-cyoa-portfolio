@@ -62,6 +62,21 @@ const PageColumn = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   
+  /* Add a semi-transparent white overlay to lighten the texture */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 1;
+  }
+  
+  /* Make content appear above the overlay */
+  > * {
+    position: relative;
+    z-index: 2;
+  }
+  
   /* Left page has right border */
   &:first-child {
     border-right: 1px solid #d3d3d3;
