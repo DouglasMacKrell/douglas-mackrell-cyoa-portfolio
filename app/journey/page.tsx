@@ -9,7 +9,8 @@ import {
   PageQuote,
   PageIllustration, 
   SeparatorLine,
-  TurnPage
+  TurnPage,
+  PageChoices
 } from "@/components/ui/book-page";
 import { PageChoice } from "@/components/ui/page-choice";
 import styled from 'styled-components';
@@ -60,15 +61,15 @@ export default function JourneyPage() {
             As agreed, you signal the <em>Maray</em>, "All systems GO. It's awesome down here."
           </PageText>
           
-          <SeparatorLine />
-          
-          <PageChoice onClick={() => handlePageTurn(6)} pageNumber={6}>
-            If you decide to explore the ledge where the Seeker has come to rest
-          </PageChoice>
-          
-          <PageChoice onClick={() => handlePageTurn(4)} pageNumber={4}>
-            If you decide to cut loose from the Maray and dive with the Seeker into the canyon
-          </PageChoice>
+          <PageChoices>
+            <PageChoice onClick={() => handlePageTurn(6)} pageNumber={6}>
+              If you decide to explore the ledge where the Seeker has come to rest
+            </PageChoice>
+            
+            <PageChoice onClick={() => handlePageTurn(4)} pageNumber={4}>
+              If you decide to cut loose from the Maray and dive with the Seeker into the canyon
+            </PageChoice>
+          </PageChoices>
         </BookPage>
       ),
       3: (
@@ -82,15 +83,15 @@ export default function JourneyPage() {
             alt="A deep sea submersible exploring an underwater cavern"
           />
           
-          <SeparatorLine />
-          
-          <PageChoice onClick={() => handlePageTurn(9)} pageNumber={9}>
-            If you decide to analyze the bubbles
-          </PageChoice>
-          
-          <PageChoice onClick={() => handlePageTurn(14)} pageNumber={14}>
-            If you decide to take depth readings
-          </PageChoice>
+          <PageChoices>
+            <PageChoice onClick={() => handlePageTurn(9)} pageNumber={9}>
+              If you decide to analyze the bubbles
+            </PageChoice>
+            
+            <PageChoice onClick={() => handlePageTurn(14)} pageNumber={14}>
+              If you decide to take depth readings
+            </PageChoice>
+          </PageChoices>
         </BookPage>
       ),
 
@@ -110,7 +111,7 @@ export default function JourneyPage() {
             alt="A deep sea diving suit descending into darkness"
           />
           
-          <SeparatorLine />
+          <TurnPage pageNumber={12} />
         </BookPage>
       ),
       5: (
@@ -123,7 +124,7 @@ export default function JourneyPage() {
             Through the murk, you notice a faint, pulsing light off to the right. It's unlike anything you've seen before - not quite bioluminescence, but something else entirely.
           </PageText>
           
-          <SeparatorLine />
+          <TurnPage pageNumber={22} />
         </BookPage>
       ),
 
@@ -138,7 +139,7 @@ export default function JourneyPage() {
             The ledge extends about 100 feet to your right and then drops off into the deeper canyon. The rock is covered with colorful sea anemones and strange deep-sea creatures you've never seen before. As you move forward, you notice what appears to be a carved stone archway half-buried in the sediment. This is no natural formation!
           </PageText>
           
-          <SeparatorLine />
+          <TurnPage pageNumber={7} />
         </BookPage>
       ),
       7: (
@@ -209,7 +210,7 @@ export default function JourneyPage() {
             alt="Two menacing figures approaching in a dimly lit dungeon"
           />
           
-          <SeparatorLine />
+          <TurnPage pageNumber={14} />
         </BookPage>
       ),
 
@@ -252,7 +253,7 @@ export default function JourneyPage() {
             alt="A life raft with two people adrift in stormy waters"
           />
           
-          <SeparatorLine />
+          <TurnPage pageNumber={15} />
         </BookPage>
       ),
 
@@ -285,7 +286,7 @@ export default function JourneyPage() {
             As you examined the base of the arch, you found what appeared to be a recessed panel with a handprint carved into it. The size matched that of a human hand, though the proportions were slightly different - longer fingers and a broader palm.
           </PageText>
           
-          <SeparatorLine />
+          <TurnPage pageNumber={23} />
         </BookPage>
       ),
     };

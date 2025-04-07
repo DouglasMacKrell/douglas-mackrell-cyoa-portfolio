@@ -82,8 +82,8 @@ export default function CoverPage() {
   return (
     <main className="min-h-screen w-full flex flex-col items-center justify-center p-4">
       <ContentContainer>
-        <div className="w-full h-[95vh] flex flex-col items-center justify-center">
-          <div className="w-full h-full max-h-[95vh] flex items-center justify-center">
+        <div className="w-full h-[90vh] flex flex-col items-center justify-center">
+          <div className="w-full h-full max-h-[90vh] flex items-center justify-center">
             {/* Use BookWrapper to constrain GrungeOverlay */}
             <BookWrapper>
               <GrungeOverlay />

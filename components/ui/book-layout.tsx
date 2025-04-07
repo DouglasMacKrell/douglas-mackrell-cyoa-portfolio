@@ -17,7 +17,7 @@ const BookContainer = styled.div`
   display: flex;
   width: 100%;
   max-width: 1200px;
-  height: 95vh;
+  height: 90vh; /* Match cover height exactly */
   margin: 2rem auto;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   background-color: #fffcf5;
