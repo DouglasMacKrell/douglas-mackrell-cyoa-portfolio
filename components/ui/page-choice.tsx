@@ -7,16 +7,13 @@
  * It includes optional page number references in the classic CYOA style.
  */
 
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import { ReactNode } from "react";
 import styled from "styled-components";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 
-// Choice Container
+// Choice Container - Styled like authentic CYOA book choices
 const ChoiceContainer = styled.div`
-  display: flex;
-  align-items: flex-start;
-  margin: 0.75rem 0;
+  margin: 0.5rem 0 0.75rem;
   cursor: pointer;
   
   &:hover {
@@ -24,30 +21,29 @@ const ChoiceContainer = styled.div`
   }
 `;
 
-// Choice Text - styled to match CYOA books
+// Choice Text - Matching the italic style from CYOA books
 const ChoiceText = styled.div`
   font-style: italic;
   text-align: justify;
-  line-height: 1.6;
+  line-height: 1.5;
   margin: 0;
   width: 100%;
 `;
 
-// Page Number Info
+// Page Number Info - Right aligned like in CYOA books
 const PageInfo = styled.div`
   display: block;
   text-align: right;
-  margin-top: 0.5rem;
-  font-style: normal;
+  margin-top: 0.2rem;
+  font-style: italic;
   font-size: 0.9rem;
-  color: #555;
 `;
 
-interface PageChoiceProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface PageChoiceProps {
   children: ReactNode;
   pageNumber: number;
-  href?: string;
   className?: string;
+  onClick?: () => void;
 }
 
 /**
@@ -55,38 +51,22 @@ interface PageChoiceProps extends ButtonHTMLAttributes<HTMLButtonElement> {
  * Includes optional page number reference in the classic CYOA style.
  * 
  * @param children - The choice text to display
- * @param href - The path to navigate to when clicked
- * @param className - Optional additional CSS classes
  * @param pageNumber - Optional page number reference to display
+ * @param className - Optional additional CSS classes
  * @param onClick - Optional click handler
  */
 export function PageChoice({ 
   children, 
   pageNumber, 
-  href,
   className,
-  ...props
+  onClick 
 }: PageChoiceProps) {
-  const content = (
-    <ChoiceContainer className={cn("page-choice", className)}>
+  return (
+    <ChoiceContainer className={cn("page-choice", className)} onClick={onClick} role="button">
       <ChoiceText>
         {children}
-        <PageInfo>Turn to page {pageNumber}</PageInfo>
       </ChoiceText>
+      <PageInfo>Turn to page {pageNumber}</PageInfo>
     </ChoiceContainer>
-  );
-
-  if (href) {
-    return (
-      <Link href={href} passHref>
-        <div {...props}>{content}</div>
-      </Link>
-    );
-  }
-
-  return (
-    <div role="button" {...props}>
-      {content}
-    </div>
   );
 } 

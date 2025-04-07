@@ -6,9 +6,10 @@ import {
   BookPage, 
   PageHeading, 
   PageText, 
-  PageQuote, 
-  PageChoices,
-  PageIllustration
+  PageQuote,
+  PageIllustration, 
+  SeparatorLine,
+  TurnPage
 } from "@/components/ui/book-page";
 import { PageChoice } from "@/components/ui/page-choice";
 import styled from 'styled-components';
@@ -59,15 +60,15 @@ export default function JourneyPage() {
             As agreed, you signal the <em>Maray</em>, "All systems GO. It's awesome down here."
           </PageText>
           
-          <PageChoices>
-            <PageChoice href="#" onClick={() => handlePageTurn(6)} pageNumber={6}>
-              If you decide to explore the ledge where the Seeker has come to rest
-            </PageChoice>
-            
-            <PageChoice href="#" onClick={() => handlePageTurn(4)} pageNumber={4}>
-              If you decide to cut loose from the Maray and dive with the Seeker into the canyon
-            </PageChoice>
-          </PageChoices>
+          <SeparatorLine />
+          
+          <PageChoice onClick={() => handlePageTurn(6)} pageNumber={6}>
+            If you decide to explore the ledge where the Seeker has come to rest
+          </PageChoice>
+          
+          <PageChoice onClick={() => handlePageTurn(4)} pageNumber={4}>
+            If you decide to cut loose from the Maray and dive with the Seeker into the canyon
+          </PageChoice>
         </BookPage>
       ),
       3: (
@@ -77,19 +78,19 @@ export default function JourneyPage() {
           </PageText>
           
           <PageIllustration 
-            src="/images/JOURNEY_UNDER_THE_SEA.webp"
+            src="https://chooseadventureshop.com/cdn/shop/files/07-1_journey-under-sea-inside_1024x1024@2x.jpg?v=1647901035"
             alt="A deep sea submersible exploring an underwater cavern"
           />
           
-          <PageChoices>
-            <PageChoice href="#" onClick={() => handlePageTurn(9)} pageNumber={9}>
-              If you decide to analyze the bubbles
-            </PageChoice>
-            
-            <PageChoice href="#" onClick={() => handlePageTurn(14)} pageNumber={14}>
-              If you decide to take depth readings
-            </PageChoice>
-          </PageChoices>
+          <SeparatorLine />
+          
+          <PageChoice onClick={() => handlePageTurn(9)} pageNumber={9}>
+            If you decide to analyze the bubbles
+          </PageChoice>
+          
+          <PageChoice onClick={() => handlePageTurn(14)} pageNumber={14}>
+            If you decide to take depth readings
+          </PageChoice>
         </BookPage>
       ),
 
@@ -109,11 +110,7 @@ export default function JourneyPage() {
             alt="A deep sea diving suit descending into darkness"
           />
           
-          <PageChoices>
-            <PageChoice href="#" onClick={() => handlePageTurn(12)} pageNumber={12}>
-              If you decide to continue descending
-            </PageChoice>
-          </PageChoices>
+          <SeparatorLine />
         </BookPage>
       ),
       5: (
@@ -126,15 +123,7 @@ export default function JourneyPage() {
             Through the murk, you notice a faint, pulsing light off to the right. It's unlike anything you've seen before - not quite bioluminescence, but something else entirely.
           </PageText>
           
-          <PageChoices>
-            <PageChoice href="#" onClick={() => handlePageTurn(26)} pageNumber={26}>
-              If you decide to investigate the mysterious light
-            </PageChoice>
-            
-            <PageChoice href="#" onClick={() => handlePageTurn(8)} pageNumber={8}>
-              If you decide to return to the surface
-            </PageChoice>
-          </PageChoices>
+          <SeparatorLine />
         </BookPage>
       ),
 
@@ -149,15 +138,7 @@ export default function JourneyPage() {
             The ledge extends about 100 feet to your right and then drops off into the deeper canyon. The rock is covered with colorful sea anemones and strange deep-sea creatures you've never seen before. As you move forward, you notice what appears to be a carved stone archway half-buried in the sediment. This is no natural formation!
           </PageText>
           
-          <PageChoices>
-            <PageChoice href="#" onClick={() => handlePageTurn(22)} pageNumber={22}>
-              If you decide to examine the stone archway
-            </PageChoice>
-            
-            <PageChoice href="#" onClick={() => handlePageTurn(9)} pageNumber={9}>
-              If you decide to return to the Seeker and analyze the bubbles
-            </PageChoice>
-          </PageChoices>
+          <SeparatorLine />
         </BookPage>
       ),
       7: (
@@ -174,7 +155,7 @@ export default function JourneyPage() {
           />
           
           <PageText>
-            As your gloved hand traces one of the symbols, it begins to glow with a faint blue light. Suddenly, all the symbols illuminate in sequence, and the ground beneath you trembles.
+            As your gloved hand traced one of the symbols, it began to glow with a faint blue light. Suddenly, all the symbols illuminated in sequence, and the ground beneath you trembled.
           </PageText>
         </BookPage>
       ),
@@ -193,11 +174,11 @@ export default function JourneyPage() {
           </PageText>
           
           <PageText>
-            The room is cavernous - your footsteps echo spookily. Mounted torches lick greedily at the gloomy darkness.
+            The room is cavernous - your footsteps echoed spookily. Mounted torches licked greedily at the gloomy darkness.
           </PageText>
           
           <PageText>
-            Berger snorts. "Guess someone forgot to pay Con Ed tonight?" He laughs at his own awful joke, then freezes, crashing to the ground. "Dang," he scowls. "What in-"
+            Berger snorted. "Guess someone forgot to pay Con Ed tonight?" He laughed at his own awful joke, then froze, crashing to the ground. "Dang," he scowled. "What in-"
           </PageText>
         </BookPage>
       ),
@@ -208,19 +189,19 @@ export default function JourneyPage() {
           </PageText>
           
           <PageText>
-            "Oo," says Melissa. "Neat."
+            "Oo," said Melissa. "Neat."
           </PageText>
           
           <PageText>
-            "HALT!" comes a bellow from the darkness. "Who goes there?!" Your blood runs cold.
+            "HALT!" came a bellow from the darkness. "Who goes there?!" Your blood ran cold.
           </PageText>
           
           <PageText>
-            "Geez, Ian, they've halted already," whines a second hidden voice. "There's really no need to yell."
+            "Geez, Ian, they've halted already," whined a second hidden voice. "There's really no need to yell."
           </PageText>
           
           <PageText>
-            In the dim light, you make out two figures approaching - one holding a long club, the other quivering behind a crossbow.
+            In the dim light, you made out two figures approaching - one holding a long club, the other quivering behind a crossbow.
           </PageText>
           
           <PageIllustration 
@@ -228,9 +209,7 @@ export default function JourneyPage() {
             alt="Two menacing figures approaching in a dimly lit dungeon"
           />
           
-          <PageText className="text-center mt-4">
-            Continue to page 26
-          </PageText>
+          <SeparatorLine />
         </BookPage>
       ),
 
@@ -242,30 +221,30 @@ export default function JourneyPage() {
           </PageText>
           
           <PageText>
-            "Try to hold 'er!" Eric shouts. You snap on your safety harness and brace yourself as the wave rolls the <em>Allegro</em> all the way over on its side. A wall of water smashes over you.
+            "Try to hold 'er!" Eric shouted. You snapped on your safety harness and braced yourself as the wave rolled the <em>Allegro</em> all the way over on its side. A wall of water smashed over you.
           </PageText>
           
           <PageText>
-            The wave has passed. You are still alive, but the <em>Allegro</em> is a battered hulk. The masts and sails are gone. Eric, Maiko, and Dr. Vivaldi are nowhere in sight. Pete lies moaning in the cockpit.
+            The wave had passed. You were still alive, but the <em>Allegro</em> was a battered hulk. The masts and sails were gone. Eric, Maiko, and Dr. Vivaldi were nowhere in sight. Pete lay moaning in the cockpit.
           </PageText>
           
           <PageText>
-            "Are the others lost?" he asks.
+            "Are the others lost?" he asked.
           </PageText>
           
           <PageText>
-            You sadly nod your head. "Are you OK?"
+            You sadly nodded your head. "Are you OK?"
           </PageText>
           
           <PageText>
-            "I think I cracked a rib," he says. "But forget about that. You'd better inflate the life raft." He gestures toward the bow of the boat. It is tilted down beneath the surface, and water is sloshing over the deck. "The wave smashed in the bow. We're going down."
+            "I think I cracked a rib," he said. "But forget about that. You'd better inflate the life raft." He gestured toward the bow of the boat. It was tilted down beneath the surface, and water was sloshing over the deck. "The wave smashed in the bow. We're going down."
           </PageText>
         </BookPage>
       ),
       15: (
         <BookPage side="right" pageNumber={15}>
           <PageText>
-            You quickly inflate the raft. Taking only enough time to grab a tin of biscuits and a jug of water, you help Pete into the raft and jump in behind him. You push off from the <em>Allegro</em>. Seconds later the sloop disappears beneath the waves. You and Pete say a prayer for your lost friends, and then one for yourselves.
+            You quickly inflated the raft. Taking only enough time to grab a tin of biscuits and a jug of water, you helped Pete into the raft and jumped in behind him. You pushed off from the <em>Allegro</em>. Seconds later the sloop disappeared beneath the waves. You and Pete said a prayer for your lost friends, and then one for yourselves.
           </PageText>
           
           <PageIllustration 
@@ -273,9 +252,7 @@ export default function JourneyPage() {
             alt="A life raft with two people adrift in stormy waters"
           />
           
-          <PageText className="text-center mt-4">
-            Turn to page 28
-          </PageText>
+          <SeparatorLine />
         </BookPage>
       ),
 
@@ -285,11 +262,11 @@ export default function JourneyPage() {
           <PageHeading>The Ancient Gateway</PageHeading>
           
           <PageText>
-            You carefully approach the stone archway, brushing away centuries of sediment with your gloved hands. As you clear away more debris, you reveal intricate carvings that seem to depict an advanced civilization. Some of the symbols resemble modern mathematics and astronomy, but they're clearly thousands of years old.
+            You carefully approached the stone archway, brushing away centuries of sediment with your gloved hands. As you cleared away more debris, you revealed intricate carvings that seemed to depict an advanced civilization. Some of the symbols resembled modern mathematics and astronomy, but they were clearly thousands of years old.
           </PageText>
           
           <PageText>
-            The arch itself is remarkably preserved, despite its apparent age. It's made of a strange, bluish-green stone that doesn't match the surrounding geology. As your headlamp illuminates the inner curve of the arch, you notice something even more unusual - the water within the archway seems to shimmer and distort, as if it's somehow different from the water surrounding you.
+            The arch itself was remarkably preserved, despite its apparent age. It's made of a strange, bluish-green stone that didn't match the surrounding geology. As your headlamp illuminated the inner curve of the arch, you noticed something even more unusual - the water within the archway seemed to shimmer and distort, as if it was somehow different from the water surrounding you.
           </PageText>
           
           <PageIllustration 
@@ -301,22 +278,14 @@ export default function JourneyPage() {
       23: (
         <BookPage side="right" pageNumber={23}>
           <PageText>
-            You report your findings to the <em>Maray</em> via your laser communicator. Dr. Rodriguez is ecstatic about your discovery. "This could be proof of Atlantis or another pre-flood civilization! Can you see if there's any way to activate the archway? Ancient texts often describe such structures as portals or gateways."
+            You reported your findings to the <em>Maray</em> via your laser communicator. Dr. Rodriguez was ecstatic about your discovery. "This could be proof of Atlantis or another pre-flood civilization! Can you see if there's any way to activate the archway? Ancient texts often described such structures as portals or gateways."
           </PageText>
           
           <PageText>
-            As you examine the base of the arch, you find what appears to be a recessed panel with a handprint carved into it. The size matches that of a human hand, though the proportions are slightly different - longer fingers and a broader palm.
+            As you examined the base of the arch, you found what appeared to be a recessed panel with a handprint carved into it. The size matched that of a human hand, though the proportions were slightly different - longer fingers and a broader palm.
           </PageText>
           
-          <PageChoices>
-            <PageChoice href="#" onClick={() => handlePageTurn(42)} pageNumber={42}>
-              If you decide to place your hand on the carved handprint
-            </PageChoice>
-            
-            <PageChoice href="#" onClick={() => handlePageTurn(31)} pageNumber={31}>
-              If you decide it's too risky and return to the Seeker
-            </PageChoice>
-          </PageChoices>
+          <SeparatorLine />
         </BookPage>
       ),
     };

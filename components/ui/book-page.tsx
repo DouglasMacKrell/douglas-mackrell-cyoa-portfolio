@@ -11,16 +11,14 @@
 import { ReactNode } from "react"
 import styled from 'styled-components'
 import { cn } from "@/lib/utils"
-import Image from "next/image"
 
 // Book Page Container
 const PageContainer = styled.div<{ $side: 'left' | 'right' }>`
   display: flex;
   flex-direction: column;
-  padding: 2rem 2.5rem;
+  padding: 2rem 2.5rem 1.5rem;
   height: 100%;
   position: relative;
-  background-color: #f8f5e6;
   font-family: Georgia, 'Times New Roman', Times, serif;
   line-height: 1.5;
   text-align: justify;
@@ -30,58 +28,46 @@ const PageContainer = styled.div<{ $side: 'left' | 'right' }>`
     font-family: Georgia, 'Times New Roman', Times, serif;
     font-weight: normal;
   }
-  
-  /* First paragraph styling with drop cap */
-  & > p:first-of-type::first-letter {
-    font-size: 2.5rem;
-    font-weight: bold;
-    float: left;
-    line-height: 1;
-    margin-right: 0.1em;
-  }
 `;
 
-// Page Number
+// Page Number - Simple upper corner number based on CYOA scans
 const PageNumberContainer = styled.div<{ $side: 'left' | 'right' }>`
   position: absolute;
-  top: 2rem;
+  top: 1.25rem;
   ${({ $side }) => $side === 'left' ? 'left: 2.5rem;' : 'right: 2.5rem;'}
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: normal;
 `;
 
-// Separator Line
-const SeparatorLine = styled.hr`
+// Export the SeparatorLine so it can be used directly
+export const SeparatorLine = styled.hr`
   border: none;
   border-top: 1px solid #999;
-  margin: 1.5rem 0;
+  margin: auto 0 0.5rem 0;
   width: 100%;
 `;
 
-// Choices Container
-const ChoicesContainer = styled.div`
-  margin-top: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
-
-// Text Container
+// Text Container - Matching the CYOA book text style
 const TextContainer = styled.p`
-  margin: 0.75rem 0;
-  font-size: 1rem;
+  margin: 0.5rem 0 0.75rem;
+  font-size: 0.95rem;
   line-height: 1.6;
   
   em {
     font-style: italic;
   }
+  
+  &.text-center {
+    text-align: center;
+  }
 `;
 
-// Heading
+// Heading - Centered headers as seen in CYOA books
 const HeadingContainer = styled.h2`
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   text-align: center;
-  margin: 1rem 0 1.5rem;
+  margin: 1rem 0 1.25rem;
+  font-weight: bold;
 `;
 
 // Quote Container
@@ -109,20 +95,26 @@ const QuoteContainer = styled.blockquote`
   }
 `;
 
-// Illustration Container
+// Illustration Container - Matching the CYOA book illustration style
 const IllustrationContainer = styled.div<{ $fullPage?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: ${({ $fullPage }) => $fullPage ? '0' : '1.5rem 0'};
-  height: ${({ $fullPage }) => $fullPage ? '100%' : 'auto'};
+  margin: 1rem auto;
   
   img {
     max-width: 100%;
-    max-height: ${({ $fullPage }) => $fullPage ? '100%' : '300px'};
+    max-height: ${({ $fullPage }) => $fullPage ? '70vh' : '200px'};
     object-fit: contain;
-    border: 1px solid #ccc;
   }
+`;
+
+// Turn Page Instruction - Matches the italic instruction at bottom of CYOA pages
+const TurnPageContainer = styled.div`
+  font-style: italic;
+  text-align: right;
+  margin: 0.5rem 0 0 0;
+  font-size: 0.9rem;
 `;
 
 // Interface definitions
@@ -158,6 +150,11 @@ interface IllustrationProps {
   src: string
   alt: string
   fullPage?: boolean
+  className?: string
+}
+
+interface TurnPageProps {
+  pageNumber: number
   className?: string
 }
 
@@ -200,11 +197,20 @@ export function PageChoices({ children, className }: ChoicesProps) {
   return (
     <>
       <SeparatorLine />
-      <ChoicesContainer className={cn("page-choices", className)}>
-        {children}
-      </ChoicesContainer>
+      {children}
     </>
-  )
+  );
+}
+
+export function TurnPage({ pageNumber, className }: TurnPageProps) {
+  return (
+    <>
+      <SeparatorLine />
+      <TurnPageContainer className={cn("turn-page", className)}>
+        Turn to page {pageNumber}.
+      </TurnPageContainer>
+    </>
+  );
 }
 
 export function PageIllustration({ src, alt, fullPage = false, className }: IllustrationProps) {

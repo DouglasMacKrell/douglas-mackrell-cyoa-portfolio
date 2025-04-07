@@ -6,9 +6,10 @@ import {
   BookPage, 
   PageHeading, 
   PageText, 
-  PageQuote, 
-  PageChoices,
-  PageIllustration
+  PageQuote,
+  PageIllustration,
+  SeparatorLine,
+  TurnPage
 } from "@/components/ui/book-page";
 import { PageChoice } from "@/components/ui/page-choice";
 import styled from 'styled-components';
@@ -73,7 +74,7 @@ export default function HomePage() {
   // Render different content based on current page numbers
   const renderPages = () => {
     const pages = {
-      // Page spread 2-3: Initial scenario
+      // Page spread 2-3: Initial scenario (Journey Under the Sea)
       2: (
         <BookPage side="left" pageNumber={2}>
           <PageText>
@@ -88,15 +89,15 @@ export default function HomePage() {
             As agreed, you signal the <em>Maray</em>, "All systems GO. It's awesome down here."
           </PageText>
           
-          <PageChoices>
-            <PageChoice href="#" onClick={() => handlePageTurn(6)} pageNumber={6}>
-              If you decide to explore the ledge where the Seeker has come to rest
-            </PageChoice>
-            
-            <PageChoice href="#" onClick={() => handlePageTurn(4)} pageNumber={4}>
-              If you decide to cut loose from the Maray and dive with the Seeker into the canyon
-            </PageChoice>
-          </PageChoices>
+          <SeparatorLine />
+          
+          <PageChoice onClick={() => handlePageTurn(6)} pageNumber={6}>
+            If you decide to explore the ledge where the Seeker has come to rest
+          </PageChoice>
+          
+          <PageChoice onClick={() => handlePageTurn(4)} pageNumber={4}>
+            If you decide to cut loose from the Maray and dive with the Seeker into the canyon
+          </PageChoice>
         </BookPage>
       ),
       3: (
@@ -106,64 +107,62 @@ export default function HomePage() {
           </PageText>
           
           <PageIllustration 
-            src="/images/JOURNEY_UNDER_THE_SEA.webp"
+            src="https://chooseadventureshop.com/cdn/shop/files/07-1_journey-under-sea-inside_1024x1024@2x.jpg?v=1647901035"
             alt="A deep sea submersible exploring an underwater cavern"
           />
           
-          <PageChoices>
-            <PageChoice href="#" onClick={() => handlePageTurn(9)} pageNumber={9}>
-              If you decide to analyze the bubbles
-            </PageChoice>
-            
-            <PageChoice href="#" onClick={() => handlePageTurn(14)} pageNumber={14}>
-              If you decide to take depth readings
-            </PageChoice>
-          </PageChoices>
+          <SeparatorLine />
+          
+          <PageChoice onClick={() => handlePageTurn(9)} pageNumber={9}>
+            If you decide to analyze the bubbles
+          </PageChoice>
+          
+          <PageChoice onClick={() => handlePageTurn(14)} pageNumber={14}>
+            If you decide to take depth readings
+          </PageChoice>
         </BookPage>
       ),
 
-      // Page spread 4-5: Dive into canyon
+      // Page spread 4-5: Computer example based on CYOA scans 
       4: (
         <BookPage side="left" pageNumber={4}>
           <PageText>
-            You decide to cut loose from the <em>Maray</em> and dive with the <em>Seeker</em> into the canyon. As you slowly descend, the water around you gets darker. The powerful searchlight of the <em>Seeker</em> illuminates the canyon walls. They are encrusted with barnacles and sponges.
+            "I'd like to make a million dollars," you say.
           </PageText>
           
           <PageText>
-            A school of small, silvery fish swims by, their scales reflecting the beam of light. You continue descending. At 1,000 feet, the bottom is still not in sight. At 1,500 feet, you begin to worry that perhaps you should go back up.
+            "Well," says Conrad, "I'm still absorbing data via my Library of Congress hookup, but I can already tell it's no big problem. But here's something to think about; I have learned by scanning thousands of books that many rich people are unhappy and many poor people are happy, so I must ask you what you <em>really</em> want most—to be rich, or to be happy."
           </PageText>
           
-          <PageIllustration 
-            src="/images/JOURNEY_UNDER_THE_SEA.webp"
-            alt="A deep sea diving suit descending into darkness"
-          />
+          <SeparatorLine />
           
-          <PageChoices>
-            <PageChoice href="#" onClick={() => handlePageTurn(12)} pageNumber={12}>
-              If you decide to continue descending
-            </PageChoice>
-          </PageChoices>
+          <PageChoice onClick={() => handlePageTurn(33)} pageNumber={33}>
+            If you say, "Just make me rich,"
+          </PageChoice>
+          
+          <PageChoice onClick={() => handlePageTurn(38)} pageNumber={38}>
+            If you say, "I just want to be happy,"
+          </PageChoice>
         </BookPage>
       ),
       5: (
         <BookPage side="right" pageNumber={5}>
+          <PageHeading>The AI-32</PageHeading>
+          
           <PageText>
-            At 2,000 feet, the powerful searchlight of the <em>Seeker</em> begins to dim. You switch to the auxiliary power unit and continue the dive. Just as you are about to give up, you spot the bottom at 2,450 feet. You hover over it, observing the strange terrain. The canyon floor appears to be covered with a thick layer of silt that billows up in clouds as the <em>Seeker</em>'s thrusters disturb it.
+            The AI-32 is an intelligent computer unlike any other machine before it. For that reason there is no need to learn "how to work it." The computer will teach you how to use it itself. Just flick on the power switch. When the amber light comes on, press the button marked INSTRUCTION MODE. Then introduce yourself in an ordinary conversational voice. Your computer will answer back.
           </PageText>
           
           <PageText>
-            Through the murk, you notice a faint, pulsing light off to the right. It's unlike anything you've seen before - not quite bioluminescence, but something else entirely.
+            Since your AI-32 (Conrad) has not been preprogrammed with information about you, start off by telling it about yourself. Your name, school, and age, who's in your family, and what your hobbies and sports are. Once your computer has gotten to know you, it will be much more useful to you. You'll find your AI-32 will be a really good friend!
           </PageText>
           
-          <PageChoices>
-            <PageChoice href="#" onClick={() => handlePageTurn(26)} pageNumber={26}>
-              If you decide to investigate the mysterious light
-            </PageChoice>
-            
-            <PageChoice href="#" onClick={() => handlePageTurn(8)} pageNumber={8}>
-              If you decide to return to the surface
-            </PageChoice>
-          </PageChoices>
+          <PageIllustration 
+            src="https://preview.redd.it/cyoa-you-are-a-computer-page-7-v0-qyb0odrj9kq71.jpg?width=640&crop=smart&auto=webp&s=b96e456ca4fe3d3e44204e0f3dab0f7a13aac6c3"
+            alt="A person talking to a computer"
+          />
+          
+          <TurnPage pageNumber={7} />
         </BookPage>
       ),
 
@@ -178,15 +177,15 @@ export default function HomePage() {
             The ledge extends about 100 feet to your right and then drops off into the deeper canyon. The rock is covered with colorful sea anemones and strange deep-sea creatures you've never seen before. As you move forward, you notice what appears to be a carved stone archway half-buried in the sediment. This is no natural formation!
           </PageText>
           
-          <PageChoices>
-            <PageChoice href="#" onClick={() => handlePageTurn(22)} pageNumber={22}>
-              If you decide to examine the stone archway
-            </PageChoice>
-            
-            <PageChoice href="#" onClick={() => handlePageTurn(9)} pageNumber={9}>
-              If you decide to return to the Seeker and analyze the bubbles
-            </PageChoice>
-          </PageChoices>
+          <SeparatorLine />
+          
+          <PageChoice onClick={() => handlePageTurn(22)} pageNumber={22}>
+            If you decide to examine the stone archway
+          </PageChoice>
+          
+          <PageChoice onClick={() => handlePageTurn(9)} pageNumber={9}>
+            If you decide to return to the Seeker and analyze the bubbles
+          </PageChoice>
         </BookPage>
       ),
       7: (

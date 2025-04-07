@@ -18,12 +18,11 @@ const BookContainer = styled.div`
   width: 100%;
   height: 100%;
   min-height: 70vh;
-  max-width: 1000px;
+  max-width: 900px;
   margin: 2rem auto;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
-  background-color: #ece8dd;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  background-color: #fffcf5;
   position: relative;
-  border-radius: 2px;
   
   /* Book spine shadow */
   &::after {
@@ -32,12 +31,12 @@ const BookContainer = styled.div`
     top: 0;
     left: 50%;
     height: 100%;
-    width: 6px;
+    width: 2px;
     background: linear-gradient(
       to right,
-      rgba(0, 0, 0, 0.15),
-      rgba(0, 0, 0, 0.25),
-      rgba(0, 0, 0, 0.15)
+      rgba(0, 0, 0, 0.05),
+      rgba(0, 0, 0, 0.1),
+      rgba(0, 0, 0, 0.05)
     );
     transform: translateX(-50%);
     z-index: 10;
@@ -49,26 +48,23 @@ const BookSpread = styled.div`
   display: flex;
   width: 100%;
   height: 100%;
-  background-image: url('/images/paper-texture.png');
-  background-repeat: repeat;
-  background-size: 500px;
+  background-color: #fffcf5;
 `;
 
-// Page column
+// Page column - using the off-white color from CYOA books
 const PageColumn = styled.div`
   flex: 1;
   position: relative;
   overflow: hidden;
+  background-color: #fffcf5;
   
   /* Left page has different shadow than right page */
   &:first-child {
-    border-right: 1px solid #ddd;
-    box-shadow: inset -5px 0 10px -6px rgba(0, 0, 0, 0.2);
+    border-right: 1px solid #eee;
   }
   
   &:last-child {
-    border-left: 1px solid #ddd;
-    box-shadow: inset 5px 0 10px -6px rgba(0, 0, 0, 0.2);
+    border-left: 1px solid #eee;
   }
 `;
 
