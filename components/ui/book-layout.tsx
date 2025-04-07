@@ -49,26 +49,27 @@ const BookSpread = styled.div`
   width: 100%;
   height: 100%;
   background-color: #fffcf5;
-  background-image: url('/images/paper-texture.png');
-  background-size: 500px;
-  background-repeat: repeat;
   overflow: hidden; /* Prevent scrolling */
 `;
 
-// Page column - using the off-white color from CYOA books
+// Single page column (left or right)
 const PageColumn = styled.div`
   flex: 1;
+  height: 100%;
   position: relative;
-  overflow: hidden;
-  background-color: transparent; /* Let the paper texture show through */
+  background-image: url('/images/paper-texture.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   
-  /* Left page has different shadow than right page */
+  /* Left page has right border */
   &:first-child {
-    border-right: 1px solid #eee;
+    border-right: 1px solid #d3d3d3;
   }
   
+  /* Right page has left border */
   &:last-child {
-    border-left: 1px solid #eee;
+    border-left: 1px solid #d3d3d3;
   }
 `;
 
