@@ -218,9 +218,21 @@ export function AnimatedBook({
     display: flex;
     justify-content: center;
     width: 100%;
-    transform: ${({ $isOpen }) => $isOpen ? 'translateX(-8%)' : 'translateX(0)'};
+    /* When open, center the two-page spread; when closed (cover only), center the single page */
+    transform: ${({ $isOpen }) => $isOpen ? 'translateX(0)' : 'translateX(0)'};
     transition: transform 0.5s ease-out;
     position: relative; /* Needed for proper positioning */
+    
+    /* Adjust parent positions to ensure proper centering */
+    .stf__parent {
+      position: relative;
+      margin: 0 auto;
+    }
+    
+    /* For cover (single page) vs spread (two pages) */
+    .--single {
+      margin: 0 auto !important;
+    }
   `;
 
   // Help overlay displaying click hints
@@ -273,6 +285,8 @@ export function AnimatedBook({
           swipeDistance={0} /* Disable swipe to prevent accidental flips */
           showPageCorners={false} /* Disable default corner hover effect */
           disableFlipByClick={false} /* Allow clicking on page to turn */
+          singlePageMode={!isOpen} /* Use single page mode when showing cover */
+          clickEventForward={true} /* Forward click events to page elements */
         >
           {pages.map((pageContent, index) => {
             const isEven = index % 2 === 0;
@@ -289,17 +303,22 @@ export function AnimatedBook({
         </HTMLFlipBook>
       </CenteredContainer>
 
-      {/* Click overlays for page turning */}
-      <ClickOverlay 
-        $position="left" 
-        onClick={prevPage} 
-        className="click-left"
-      />
-      <ClickOverlay 
-        $position="right" 
-        onClick={nextPage} 
-        className="click-right"
-      />
+      {/* Click overlays for page turning - only show when appropriate */}
+      {currentPage > 0 && (
+        <ClickOverlay 
+          $position="left" 
+          onClick={prevPage} 
+          className="click-left"
+        />
+      )}
+      
+      {currentPage < totalPages - 1 && (
+        <ClickOverlay 
+          $position="right" 
+          onClick={nextPage} 
+          className="click-right"
+        />
+      )}
       
       {/* Help overlay that appears after idle time */}
       {showHelp && (

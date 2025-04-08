@@ -22,18 +22,54 @@ const PageContainer = styled.div`
 const AnimatedContainer = styled.div`
   @keyframes slideUp {
     from { 
-      transform: translateY(50vh); 
-      opacity: 0; 
+      transform: translateY(100vh); /* Fully off screen */
     }
     to { 
-      transform: translateY(0); 
-      opacity: 1; 
+      transform: translateY(0);
     }
   }
-  animation: slideUp 1.2s ease-out;
+  animation: slideUp 1.5s ease-out;
   width: 100%;
   display: flex;
   justify-content: center;
+`;
+
+// Add styles for cover page
+const CoverPage = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #fff;
+`;
+
+const CoverTitle = styled.h1`
+  font-size: 2rem;
+  text-align: center;
+  color: #8d5fc9;
+  margin: 4rem 0 2rem;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+`;
+
+const CoverSubtitle = styled.div`
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: 1rem;
+`;
+
+const CoverImage = styled.div`
+  flex: 1;
+  position: relative;
+  margin: 1rem 2rem;
+  border: 8px solid #e3c395;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+`;
+
+const CoverAuthor = styled.div`
+  font-style: italic;
+  text-align: center;
+  margin: 1rem 0 3rem;
 `;
 
 // Text Container - Matching the CYOA book text style
@@ -100,7 +136,34 @@ const IllustrationContainer = styled.div`
 export default function AnimatedJourneyPage() {
   // Generate an array of page content
   const pages = [
-    // Page 1 - Cover or title page
+    // Page 0 - Cover page
+    <CoverPage key="cover">
+      <div>
+        <CoverSubtitle>
+          YOU&apos;RE THE STAR OF THE STORY!<br />
+          CHOOSE FROM 42 POSSIBLE ENDINGS.
+        </CoverSubtitle>
+        
+        <CoverTitle>
+          YOU ARE A<br />
+          SOFTWARE ENGINEER
+        </CoverTitle>
+      </div>
+      
+      <CoverImage>
+        <Image 
+          src="/hero-image.png" 
+          alt="Software Engineer in cyberpunk style" 
+          fill
+          style={{ objectFit: "cover" }}
+          priority
+        />
+      </CoverImage>
+      
+      <CoverAuthor>by Douglas MacKrell</CoverAuthor>
+    </CoverPage>,
+    
+    // Page 1 - First story page
     <div key="page1">
       <Heading>THE BEGINNING OF YOUR ADVENTURE</Heading>
       <TextBlock>
