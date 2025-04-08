@@ -109,10 +109,17 @@ interface PageProps {
 
 // The individual page component
 const Page = forwardRef<HTMLDivElement, PageProps>(({ pageNumber, side, children, className }, ref) => {
+  // Display page number only for actual content (starting from page 9)
+  // Front matter (cover, title, contents, warning) don't show numbers
+  const displayPageNumber = () => {
+    if (pageNumber < 9) return ''; // Hide page numbers for front matter
+    return pageNumber;
+  };
+
   return (
     <div ref={ref} className={cn("page", className)} data-density="hard">
       <PageContent>
-        <PageNumber $side={side}>{pageNumber}</PageNumber>
+        <PageNumber $side={side}>{displayPageNumber()}</PageNumber>
         <div className="page-content">
           {children}
         </div>
@@ -218,15 +225,18 @@ export function AnimatedBook({
     display: flex;
     justify-content: center;
     width: 100%;
-    /* When open, center the two-page spread; when closed (cover only), center the single page */
-    transform: ${({ $isOpen }) => $isOpen ? 'translateX(0)' : 'translateX(0)'};
-    transition: transform 0.5s ease-out;
     position: relative; /* Needed for proper positioning */
     
-    /* Adjust parent positions to ensure proper centering */
+    /* Fix centering issues with the library's container elements */
     .stf__parent {
-      position: relative;
-      margin: 0 auto;
+      display: flex !important;
+      justify-content: center !important;
+      margin: 0 auto !important;
+    }
+    
+    /* Fix the right-page alignment issue */
+    .stf__block {
+      margin: 0 auto !important;
     }
     
     /* For cover (single page) vs spread (two pages) */
@@ -285,7 +295,7 @@ export function AnimatedBook({
           swipeDistance={0} /* Disable swipe to prevent accidental flips */
           showPageCorners={false} /* Disable default corner hover effect */
           disableFlipByClick={false} /* Allow clicking on page to turn */
-          singlePageMode={!isOpen} /* Use single page mode when showing cover */
+          singlePageMode={currentPage === 0} /* Use single page mode only for cover */
           clickEventForward={true} /* Forward click events to page elements */
         >
           {pages.map((pageContent, index) => {
@@ -323,10 +333,10 @@ export function AnimatedBook({
       {/* Help overlay that appears after idle time */}
       {showHelp && (
         <HelpOverlay>
-          <HelpText>
+          <HelpText style={{ textAlign: 'left' }}>
             Click here to<br />go back
           </HelpText>
-          <HelpText>
+          <HelpText style={{ textAlign: 'right' }}>
             Click here to<br />turn the page
           </HelpText>
         </HelpOverlay>

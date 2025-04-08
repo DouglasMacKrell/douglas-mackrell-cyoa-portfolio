@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { AnimatedBook } from "@/components/ui/animated-book";
 import styled from 'styled-components';
 import Image from 'next/image';
+import { BookCover } from "@/components/ui/book-cover";
 
 // Page container with animation
 const PageContainer = styled.div`
@@ -133,37 +134,60 @@ const IllustrationContainer = styled.div`
   width: 100%;
 `;
 
+// Add styling for the warning page
+const WarningPage = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 3rem 2rem;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+`;
+
+const WarningTitle = styled.h1`
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid black;
+  padding-bottom: 0.5rem;
+  font-weight: bold;
+`;
+
+const WarningText = styled.p`
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+`;
+
 export default function AnimatedJourneyPage() {
   // Generate an array of page content
   const pages = [
-    // Page 0 - Cover page
-    <CoverPage key="cover">
-      <div>
-        <CoverSubtitle>
-          YOU&apos;RE THE STAR OF THE STORY!<br />
-          CHOOSE FROM 42 POSSIBLE ENDINGS.
-        </CoverSubtitle>
-        
-        <CoverTitle>
-          YOU ARE A<br />
-          SOFTWARE ENGINEER
-        </CoverTitle>
-      </div>
-      
-      <CoverImage>
-        <Image 
-          src="/hero-image.png" 
-          alt="Software Engineer in cyberpunk style" 
-          fill
-          style={{ objectFit: "cover" }}
-          priority
-        />
-      </CoverImage>
-      
-      <CoverAuthor>by Douglas MacKrell</CoverAuthor>
-    </CoverPage>,
+    // Page 0 - Cover page (using full BookCover component)
+    <div key="cover" style={{ height: '100%' }}>
+      <BookCover />
+    </div>,
     
-    // Page 1 - First story page
+    // Page 1 - Warning page
+    <WarningPage key="warning">
+      <WarningTitle>WARNING!!!</WarningTitle>
+      <WarningText>
+        Do not read this book straight through from beginning to end! These pages contain many different adventures you may have as a software engineer.
+      </WarningText>
+      <WarningText>
+        From time to time as you read along, you will be asked to make a choice. Your choice may lead to success or disaster!
+      </WarningText>
+      <WarningText>
+        The adventures you take are a result of your choice. You are responsible because you choose! After you make a choice, follow the instructions to see what happens to you next.
+      </WarningText>
+      <WarningText>
+        Think carefully before you make a move. Any choice might be your last. What will happen once you're a software engineer? It all depends on you.
+      </WarningText>
+      <WarningText>
+        Good luck!
+      </WarningText>
+    </WarningPage>,
+    
+    // Page 2 - First story page
     <div key="page1">
       <Heading>THE BEGINNING OF YOUR ADVENTURE</Heading>
       <TextBlock>
@@ -173,7 +197,7 @@ export default function AnimatedJourneyPage() {
       <TurnPageText>Turn the page to begin your journey.</TurnPageText>
     </div>,
     
-    // Page 2 - First choice page
+    // Page 3 - First choice page
     <div key="page2">
       <TextBlock>
         The sun hangs low in the sky, casting long shadows across the landscape. You have only a few hours of daylight left, and you need to make a decision quickly. Each path offers its own challenges and mysteries.
@@ -201,7 +225,7 @@ export default function AnimatedJourneyPage() {
       </ChoiceText>
     </div>,
     
-    // Page 3 - Forest intro
+    // Page 4 - Forest intro
     <div key="page3">
       <Heading>THE DARK FOREST</Heading>
       <TextBlock>
@@ -219,7 +243,7 @@ export default function AnimatedJourneyPage() {
       </ChoiceText>
     </div>,
     
-    // Page 4 - Mountain intro
+    // Page 5 - Mountain intro
     <div key="page4">
       <Heading>THE MOUNTAIN TRAIL</Heading>
       <TextBlock>
