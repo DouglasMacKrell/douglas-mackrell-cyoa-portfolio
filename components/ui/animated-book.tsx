@@ -22,6 +22,7 @@ const BookContainer = styled.div`
   overflow: visible; /* Allow pages to extend outside during animation */
   position: relative;
   justify-content: center; /* Center the book initially */
+  align-items: center;
 `;
 
 // Styling for the page content
@@ -224,24 +225,37 @@ export function AnimatedBook({
   const CenteredContainer = styled.div<{ $isOpen: boolean }>`
     display: flex;
     justify-content: center;
+    align-items: center;
     width: 100%;
     position: relative; /* Needed for proper positioning */
     
-    /* Fix centering issues with the library's container elements */
+    /* Force centering for all library elements */
     .stf__parent {
       display: flex !important;
       justify-content: center !important;
+      align-items: center !important;
       margin: 0 auto !important;
+      left: 0 !important;
+      right: 0 !important;
+      position: relative !important;
+      transform: none !important;
     }
     
-    /* Fix the right-page alignment issue */
+    /* Force centering for block elements */
     .stf__block {
       margin: 0 auto !important;
+      position: relative !important;
+      left: 0 !important;
+      right: 0 !important;
+      transform: none !important;
     }
     
-    /* For cover (single page) vs spread (two pages) */
-    .--single {
+    /* Force centering for wrapper */
+    .stf__wrapper {
+      position: relative !important;
       margin: 0 auto !important;
+      left: 0 !important;
+      right: 0 !important;
     }
   `;
 
@@ -271,46 +285,49 @@ export function AnimatedBook({
 
   return (
     <BookContainer className={cn("animated-book", className)}>
-      <CenteredContainer $isOpen={isOpen}>
-        <HTMLFlipBook
-          width={width}
-          height={height}
-          size="stretch"
-          minWidth={315}
-          maxWidth={1000}
-          minHeight={400}
-          maxHeight={1533}
-          maxShadowOpacity={0.5}
-          showCover={true}
-          mobileScrollSupport={true}
-          className="demo-book"
-          startPage={startPage}
-          drawShadow={true}
-          flippingTime={1000}
-          usePortrait={false}
-          startZIndex={0}
-          autoSize={true}
-          ref={book}
-          onFlip={handlePageFlip}
-          swipeDistance={0} /* Disable swipe to prevent accidental flips */
-          showPageCorners={false} /* Disable default corner hover effect */
-          disableFlipByClick={false} /* Allow clicking on page to turn */
-          singlePageMode={currentPage === 0} /* Use single page mode only for cover */
-          clickEventForward={true} /* Forward click events to page elements */
-        >
-          {pages.map((pageContent, index) => {
-            const isEven = index % 2 === 0;
-            return (
-              <Page 
-                key={index} 
-                pageNumber={index + 1} 
-                side={isEven ? 'left' : 'right'}
-              >
-                {pageContent}
-              </Page>
-            );
-          })}
-        </HTMLFlipBook>
+      <CenteredContainer $isOpen={isOpen} style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+        <div style={{ margin: "0 auto", display: "flex", justifyContent: "center" }}>
+          <HTMLFlipBook
+            width={width}
+            height={height}
+            size="stretch"
+            minWidth={315}
+            maxWidth={1000}
+            minHeight={400}
+            maxHeight={1533}
+            maxShadowOpacity={0.5}
+            showCover={true}
+            mobileScrollSupport={true}
+            className="demo-book"
+            startPage={startPage}
+            drawShadow={true}
+            flippingTime={1000}
+            usePortrait={false}
+            startZIndex={0}
+            autoSize={false}
+            ref={book}
+            onFlip={handlePageFlip}
+            swipeDistance={0} /* Disable swipe to prevent accidental flips */
+            showPageCorners={false} /* Disable default corner hover effect */
+            disableFlipByClick={false} /* Allow clicking on page to turn */
+            singlePageMode={currentPage === 0} /* Use single page mode only for cover */
+            clickEventForward={true} /* Forward click events to page elements */
+            style={{ margin: "0 auto" }} /* Force centering */
+          >
+            {pages.map((pageContent, index) => {
+              const isEven = index % 2 === 0;
+              return (
+                <Page 
+                  key={index} 
+                  pageNumber={index + 1} 
+                  side={isEven ? 'left' : 'right'}
+                >
+                  {pageContent}
+                </Page>
+              );
+            })}
+          </HTMLFlipBook>
+        </div>
       </CenteredContainer>
 
       {/* Click overlays for page turning - only show when appropriate */}

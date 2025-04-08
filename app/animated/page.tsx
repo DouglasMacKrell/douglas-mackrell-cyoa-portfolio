@@ -33,6 +33,18 @@ const AnimatedContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
+  position: relative;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  
+  /* Ensure readable size on smaller screens */
+  @media (max-width: 768px) {
+    .animated-book {
+      transform: scale(0.8);
+    }
+  }
 `;
 
 // Add styles for cover page
