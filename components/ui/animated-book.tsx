@@ -3,373 +3,201 @@
 /**
  * Animated Book Component using react-pageflip
  * 
- * This component creates a responsive, animated book with 3D page turning effects.
- * It maintains the CYOA book aesthetic while adding realistic page animations.
+ * Clean implementation following the library's documented patterns
  */
 
-import React, { useRef, useState, forwardRef, ReactNode, useEffect } from "react";
+import React, { useRef, useState, useEffect, forwardRef, ReactNode } from "react";
 import HTMLFlipBook from "react-pageflip";
 import styled from 'styled-components';
 import { cn } from "@/lib/utils";
 
-// Container for the entire book with proper dimensions matching cover
+// Simple container for the book
 const BookContainer = styled.div`
   display: flex;
+  justify-content: center;
   width: 100%;
-  max-width: 1200px;
   height: 90vh;
-  margin: 2rem auto;
-  overflow: visible; /* Allow pages to extend outside during animation */
-  position: relative;
-  justify-content: center; /* Center the book initially */
-  align-items: center;
+  padding: 2rem 0;
 `;
 
-// Styling for the page content
-const PageContent = styled.div`
-  position: relative;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
+// Basic styles for all pages
+const pageStyle = `
   display: flex;
   flex-direction: column;
-  padding: 2.5rem 2.5rem 1.5rem;
-  font-family: Georgia, 'Times New Roman', Times, serif;
+  height: 100%;
+  width: 100%;
+  background-color: #fefefe;
   background-image: url('/images/paper-texture.png');
   background-size: cover;
   background-position: center;
-  background-repeat: no-repeat;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
   
-  /* Add a semi-transparent white overlay to lighten the texture */
   &::before {
     content: '';
     position: absolute;
     inset: 0;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.8);
     z-index: 1;
   }
   
-  /* Make content appear above the overlay */
-  > * {
+  .page-content {
     position: relative;
     z-index: 2;
+    padding: 2.5rem;
+    height: 100%;
   }
 `;
 
-// Navigation buttons
-const NavigationButtons = styled.div`
-  position: absolute;
-  bottom: 20px;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 2rem;
-  z-index: 10;
+// Basic Page component
+const PageWrapper = styled.div`
+  ${pageStyle}
 `;
 
-const NavButton = styled.button`
-  background-color: #8d5fc9;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  font-weight: bold;
-  border: 2px solid #6b419f;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-  cursor: pointer;
-  
-  &:hover {
-    background-color: #6b419f;
-  }
-  
-  &:disabled {
-    background-color: #ccc;
-    border-color: #999;
-    cursor: not-allowed;
-  }
+// Cover Page component
+const CoverWrapper = styled.div`
+  ${pageStyle}
+  background-color: #f8f1e4;
 `;
 
-// Page number
-const PageNumber = styled.div<{ $side: 'left' | 'right' }>`
+// Page number styling
+const PageNumberEl = styled.div<{ $position: 'left' | 'right' }>`
   position: absolute;
   top: 1.25rem;
-  ${({ $side }) => $side === 'left' ? 'left: 2.5rem;' : 'right: 2.5rem;'};
-  font-size: 1.5rem;
+  ${({ $position }) => $position === 'left' ? 'left: 2.5rem;' : 'right: 2.5rem;'};
+  font-size: 1.25rem;
   font-weight: bold;
-  line-height: 1;
   font-family: Georgia, 'Times New Roman', Times, serif;
-  z-index: 3;
 `;
 
-// Interface for book page props
+// Interface for standard page props
 interface PageProps {
-  pageNumber: number;
-  side: 'left' | 'right';
+  children: ReactNode;
+  pageNumber?: number; 
+  className?: string;
+}
+
+// Interface for cover page props
+interface CoverProps {
   children: ReactNode;
   className?: string;
 }
 
-// The individual page component
-const Page = forwardRef<HTMLDivElement, PageProps>(({ pageNumber, side, children, className }, ref) => {
-  // Display page number only for actual content (starting from page 9)
-  // Front matter (cover, title, contents, warning) don't show numbers
-  const displayPageNumber = () => {
-    if (pageNumber < 9) return ''; // Hide page numbers for front matter
-    return pageNumber;
-  };
-
+// Standard Page component using forwardRef as required by the library
+const Page = forwardRef<HTMLDivElement, PageProps>(({ children, pageNumber, className }, ref) => {
+  // Determine if page is left (even) or right (odd)
+  const isLeft = pageNumber !== undefined && pageNumber % 2 === 0;
+  
   return (
-    <div ref={ref} className={cn("page", className)} data-density="hard">
-      <PageContent>
-        <PageNumber $side={side}>{displayPageNumber()}</PageNumber>
-        <div className="page-content">
-          {children}
-        </div>
-      </PageContent>
-    </div>
+    <PageWrapper className={cn("page", className)} ref={ref}>
+      <div className="page-content">
+        {pageNumber !== undefined && (
+          <PageNumberEl $position={isLeft ? 'left' : 'right'}>
+            {pageNumber >= 9 ? pageNumber : ''}
+          </PageNumberEl>
+        )}
+        {children}
+      </div>
+    </PageWrapper>
   );
 });
 
 Page.displayName = "Page";
 
-// Updated interface for AnimatedBook props to include a showNavButtons option
+// Cover Page component using forwardRef
+const PageCover = forwardRef<HTMLDivElement, CoverProps>(({ children, className }, ref) => {
+  return (
+    <CoverWrapper 
+      className={cn("page-cover", className)} 
+      ref={ref} 
+      data-density="hard"
+    >
+      <div className="page-content">
+        {children}
+      </div>
+    </CoverWrapper>
+  );
+});
+
+PageCover.displayName = "PageCover";
+
+// Interface for AnimatedBook component props
 interface AnimatedBookProps {
   pages: ReactNode[];
-  startPage?: number;
   width?: number;
   height?: number;
-  showNavButtons?: boolean;
   className?: string;
 }
 
+// Main AnimatedBook component
 export function AnimatedBook({ 
   pages, 
-  startPage = 0, 
   width = 550, 
-  height = 733,
-  showNavButtons = false,
+  height = 733, 
   className 
 }: AnimatedBookProps) {
-  const book = useRef<any>(null);
-  const [currentPage, setCurrentPage] = useState(startPage);
-  const [totalPages, setTotalPages] = useState(pages.length);
-  const [isOpen, setIsOpen] = useState(startPage > 0);
-  const [showHelp, setShowHelp] = useState(false);
-  const [isFlipping, setIsFlipping] = useState(false);
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  const bookRef = useRef<any>(null);
   
-  // Show help buttons after some idle time
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowHelp(true);
-    }, 8000); // Show after 8 seconds of inactivity
-    
-    // Clear timer on user interaction or component unmount
-    const clearHelpTimer = () => {
-      clearTimeout(timer);
-      setShowHelp(false);
-    };
-    
-    window.addEventListener('click', clearHelpTimer);
-    window.addEventListener('touchstart', clearHelpTimer);
-    
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('click', clearHelpTimer);
-      window.removeEventListener('touchstart', clearHelpTimer);
-    };
-  }, [currentPage]); // Reset timer when page changes
+    // Set total pages when the component mounts
+    if (pages) {
+      setTotalPages(pages.length);
+    }
+  }, [pages]);
   
-  // Handle page flip
   const handlePageFlip = (e: any) => {
     setCurrentPage(e.data);
-    // Set isOpen state based on whether we're past the cover
-    if (e.data > 0 && !isOpen) {
-      setIsOpen(true);
-    } else if (e.data === 0 && isOpen) {
-      setIsOpen(false);
-    }
-    
-    // Hide help when pages are flipped
-    setShowHelp(false);
-    
-    // Reset flipping state
-    setIsFlipping(false);
-  };
-  
-  // Navigation functions with debounce to prevent glitches
-  const prevPage = () => {
-    if (book.current && currentPage > 0 && !isFlipping) {
-      setIsFlipping(true);
-      book.current.pageFlip().flipPrev();
-    }
-  };
-  
-  const nextPage = () => {
-    if (book.current && currentPage < totalPages - 1 && !isFlipping) {
-      setIsFlipping(true);
-      book.current.pageFlip().flipNext();
-    }
   };
 
-  // Create click overlays for page turning by clicking left or right side
-  const ClickOverlay = styled.div<{ $position: 'left' | 'right' }>`
-    position: absolute;
-    top: 0;
-    ${({ $position }) => $position === 'left' ? 'left: 0;' : 'right: 0;'};
-    width: 30%; /* Reduced from 50% to avoid center area conflicts */
-    height: 100%;
-    z-index: 5; /* Lower z-index to prioritize actual page clicks */
-    cursor: pointer;
-  `;
-
-  // Dynamic container style for horizontal centering
-  const CenteredContainer = styled.div<{ $isOpen: boolean }>`
+  // Entry animation from bottom
+  const EntryAnimation = styled.div`
+    @keyframes slideUp {
+      from { transform: translateY(100vh); }
+      to { transform: translateY(0); }
+    }
+    animation: slideUp 1.5s ease-out;
     display: flex;
     justify-content: center;
-    align-items: center;
     width: 100%;
-    position: relative; /* Needed for proper positioning */
-    
-    /* Force centering for all library elements */
-    .stf__parent {
-      display: flex !important;
-      justify-content: center !important;
-      align-items: center !important;
-      margin: 0 auto !important;
-      left: 0 !important;
-      right: 0 !important;
-      position: relative !important;
-      transform: none !important;
-    }
-    
-    /* Force centering for block elements */
-    .stf__block {
-      margin: 0 auto !important;
-      position: relative !important;
-      left: 0 !important;
-      right: 0 !important;
-      transform: none !important;
-    }
-    
-    /* Force centering for wrapper */
-    .stf__wrapper {
-      position: relative !important;
-      margin: 0 auto !important;
-      left: 0 !important;
-      right: 0 !important;
-    }
-  `;
-
-  // Help overlay displaying click hints
-  const HelpOverlay = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    pointer-events: none;
-    z-index: 20;
-    opacity: 0.7;
   `;
   
-  const HelpText = styled.div`
-    padding: 1rem;
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 4px;
-    margin: 0 2rem;
-    font-size: 0.9rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  `;
-
   return (
-    <BookContainer className={cn("animated-book", className)}>
-      <CenteredContainer $isOpen={isOpen} style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-        <div style={{ margin: "0 auto", display: "flex", justifyContent: "center" }}>
-          <HTMLFlipBook
-            width={width}
-            height={height}
-            size="stretch"
-            minWidth={315}
-            maxWidth={1000}
-            minHeight={400}
-            maxHeight={1533}
-            maxShadowOpacity={0.5}
-            showCover={true}
-            mobileScrollSupport={true}
-            className="demo-book"
-            startPage={startPage}
-            drawShadow={true}
-            flippingTime={1000}
-            usePortrait={false}
-            startZIndex={0}
-            autoSize={false}
-            ref={book}
-            onFlip={handlePageFlip}
-            swipeDistance={0} /* Disable swipe to prevent accidental flips */
-            showPageCorners={false} /* Disable default corner hover effect */
-            disableFlipByClick={false} /* Allow clicking on page to turn */
-            singlePageMode={currentPage === 0} /* Use single page mode only for cover */
-            clickEventForward={true} /* Forward click events to page elements */
-            style={{ margin: "0 auto" }} /* Force centering */
-          >
-            {pages.map((pageContent, index) => {
-              const isEven = index % 2 === 0;
-              return (
-                <Page 
-                  key={index} 
-                  pageNumber={index + 1} 
-                  side={isEven ? 'left' : 'right'}
-                >
-                  {pageContent}
-                </Page>
-              );
-            })}
-          </HTMLFlipBook>
-        </div>
-      </CenteredContainer>
-
-      {/* Click overlays for page turning - only show when appropriate */}
-      {currentPage > 0 && (
-        <ClickOverlay 
-          $position="left" 
-          onClick={prevPage} 
-          className="click-left"
-        />
-      )}
-      
-      {currentPage < totalPages - 1 && (
-        <ClickOverlay 
-          $position="right" 
-          onClick={nextPage} 
-          className="click-right"
-        />
-      )}
-      
-      {/* Help overlay that appears after idle time */}
-      {showHelp && (
-        <HelpOverlay>
-          <HelpText style={{ textAlign: 'left' }}>
-            Click here to<br />go back
-          </HelpText>
-          <HelpText style={{ textAlign: 'right' }}>
-            Click here to<br />turn the page
-          </HelpText>
-        </HelpOverlay>
-      )}
-      
-      {showNavButtons && (
-        <NavigationButtons>
-          <NavButton onClick={prevPage} disabled={currentPage === 0 || currentPage === 1 || isFlipping}>
-            Previous
-          </NavButton>
-          <span>Page {currentPage + 1} of {totalPages}</span>
-          <NavButton onClick={nextPage} disabled={currentPage >= totalPages - 1 || isFlipping}>
-            Next
-          </NavButton>
-        </NavigationButtons>
-      )}
-    </BookContainer>
+    <EntryAnimation>
+      <BookContainer className={cn("book-container", className)}>
+        <HTMLFlipBook
+          width={width}
+          height={height}
+          size="stretch"
+          minWidth={315}
+          maxWidth={1000}
+          minHeight={400}
+          maxHeight={1533}
+          maxShadowOpacity={0.5}
+          showCover={true}
+          startPage={0}
+          flippingTime={1000}
+          className="flip-book"
+          drawShadow={true}
+          usePortrait={false}
+          onFlip={handlePageFlip}
+          ref={bookRef}
+        >
+          {/* Wrap page content in appropriate components */}
+          <PageCover>
+            {pages[0]}
+          </PageCover>
+          
+          {pages.slice(1).map((pageContent, index) => (
+            <Page 
+              key={index + 1} 
+              pageNumber={index + 1}
+            >
+              {pageContent}
+            </Page>
+          ))}
+        </HTMLFlipBook>
+      </BookContainer>
+    </EntryAnimation>
   );
 } 
